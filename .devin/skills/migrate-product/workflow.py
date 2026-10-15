@@ -109,7 +109,7 @@ Instructions:
 3. Run `make setup && make emulator && make integration`. It runs every unit DAG in wave order on one BigQuery dataset (no
    baseline shortcuts) and diffs all product tables against the legacy run. Fix anything that fails. If a unit's SQL needs a fix,
    make it on this branch and say so in the summary.
-4. Run `make report` to build `reports/index.html` (the migration sign-off report) and `make lint`. Commit both.
+4. Run `make report` to build `reports/index.html` (the migration sign-off report) and `make lint`. Commit the report with `git add -f reports/index.html` (it is gitignored on unit branches).
 5. Push and open a PR into `{BASE}` titled `Integrate pds-rsi migration: master DAG + sign-off report`. The body should link every
    unit PR and include the integration parity table.
 6. Report the structured output. Set `integration_passed` to true only if `make integration` exited 0.
