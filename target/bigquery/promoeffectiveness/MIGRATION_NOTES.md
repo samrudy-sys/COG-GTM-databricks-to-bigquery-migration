@@ -18,9 +18,5 @@ ADF `PL_RSI_PromoEffectiveness` → DAG `pds_rsi_promoeffectiveness`.
 * Rounding: every `F.round` became `CAST(ROUND(CAST(x AS NUMERIC), n) AS FLOAT64)`.
 
 ## Parity (BigQuery emulator, run_date 2024-04-30)
-`gold_promo_uplift`: 80 legacy rows, 80 BigQuery rows, all 15 columns and values match, 0 rounding-boundary rows.
-This was measured with the harness's upstream-staging bug patched in memory (see below). Unpatched, `make parity` cannot stage `pds_rsi.silver_sales_eur`.
-
-## Harness blocker (shared, not changed here)
-`tools/parity.py` `stage_inputs` appends `_load_ts` to upstream schemas that already contain `_load_ts` (from the baseline snapshot).
-The emulator then rejects `CREATE TABLE pds_rsi.silver_sales_eur` with "Duplicate column name _load_ts". Every unit that reads an upstream `pds_rsi.*` table hits this.
+`gold_promo_uplift`: 80 legacy rows, 80 BigQuery rows, all 15 columns and values match, 0 rounding-boundary rows. PASS (`reports/parity/promoeffectiveness.json`).
+This needs the harness fix from #11 (`bq_schema_from_spark` drops `_load_ts`; without it, staging the upstream `pds_rsi.silver_sales_eur` fails with a duplicate column). That fix is cherry-picked onto this branch.
