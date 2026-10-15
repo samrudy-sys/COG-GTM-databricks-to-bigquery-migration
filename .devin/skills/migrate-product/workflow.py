@@ -8,7 +8,7 @@ import os
 import subprocess
 from pathlib import Path
 
-REPO = os.environ.get("MIGRATION_REPO", "COG-GTM/databricks-to-bigquery-migration")
+REPO = os.environ.get("MIGRATION_REPO", "samrudy-sys/COG-GTM-databricks-to-bigquery-migration")
 LOCAL = Path(os.environ.get("MIGRATION_REPO_DIR", str(Path.home() / "repos" / "databricks-to-bigquery-migration")))
 BASE = os.environ.get("MIGRATION_BASE_BRANCH", "main")
 
