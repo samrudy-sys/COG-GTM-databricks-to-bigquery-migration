@@ -1,0 +1,108 @@
+{
+    "name": "PL_RSI_MediaROI",
+    "properties": {
+        "description": "Weekly media spend vs sell-out revenue",
+        "activities": [
+            {
+                "name": "NB_Media_Weekly",
+                "type": "DatabricksNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_media_weekly",
+                    "baseParameters": {
+                        "run_date": "@pipeline().parameters.run_date"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "NB_Media_ROI",
+                "type": "DatabricksNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "NB_Media_Weekly",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_media_roi",
+                    "baseParameters": {
+                        "run_date": "@pipeline().parameters.run_date"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Notify_Failure",
+                "type": "WebActivity",
+                "dependsOn": [
+                    {
+                        "activity": "NB_Media_Weekly",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    },
+                    {
+                        "activity": "NB_Media_ROI",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.00:10:00",
+                    "retry": 0
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "url": "https://prod-27.westeurope.logic.azure.com:443/workflows/7f3c1e/triggers/manual/paths/invoke",
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body": {
+                        "value": "@concat('{\"pipeline\":\"', pipeline().Pipeline, '\",\"runId\":\"', pipeline().RunId, '\",\"product\":\"pds-rsi\",\"severity\":\"P3\"}')",
+                        "type": "Expression"
+                    }
+                }
+            }
+        ],
+        "parameters": {
+            "run_date": {
+                "type": "string",
+                "defaultValue": "2024-04-30"
+            }
+        },
+        "folder": {
+            "name": "RSI/Marketing"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}

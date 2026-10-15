@@ -1,0 +1,590 @@
+{
+  "product": "pds-rsi (Retail Sales Intelligence)",
+  "source": {
+    "orchestrator": "Azure Data Factory",
+    "compute": "Azure Databricks (PySpark, Delta Lake)",
+    "pipelines": 16,
+    "notebooks": 17,
+    "triggers": 2,
+    "linked_services": {
+      "LS_ADLS_UDL": "AzureBlobFS",
+      "LS_AzureSql_ControlDB": "AzureSqlDatabase",
+      "LS_AzureSql_DemandPlanning": "AzureSqlDatabase",
+      "LS_Databricks_DeltaLake": "AzureDatabricksDeltaLake",
+      "LS_Databricks_RSI": "AzureDatabricks",
+      "LS_KeyVault_RSI": "AzureKeyVault"
+    },
+    "datasets": 4
+  },
+  "target": {
+    "orchestrator": "Cloud Composer (Airflow 2)",
+    "compute": "BigQuery",
+    "dataset": "pds_rsi"
+  },
+  "master_pipelines": [
+    "PL_RSI_Master_Daily"
+  ],
+  "orchestration_edges": [
+    [
+      "PL_RSI_MediaROI",
+      "PL_RSI_ExecKPIPack"
+    ],
+    [
+      "PL_RSI_OTIF",
+      "PL_RSI_ExecKPIPack"
+    ],
+    [
+      "PL_RSI_ProductDim",
+      "PL_RSI_MarketShare"
+    ],
+    [
+      "PL_RSI_SalesDaily",
+      "PL_RSI_MarketShare"
+    ],
+    [
+      "PL_RSI_SalesDaily",
+      "PL_RSI_MediaROI"
+    ],
+    [
+      "PL_RSI_SalesDaily",
+      "PL_RSI_PromoEffectiveness"
+    ],
+    [
+      "PL_RSI_StoreDimSCD2",
+      "PL_RSI_MarketShare"
+    ]
+  ],
+  "units": [
+    {
+      "id": "execkpipack",
+      "pipeline": "PL_RSI_ExecKPIPack",
+      "member_pipelines": [
+        "PL_RSI_ExecKPIPack"
+      ],
+      "notebooks": [
+        "nb_exec_kpi_pack"
+      ],
+      "reads": [
+        "pds_rsi.gold_media_roi",
+        "pds_rsi.gold_otif",
+        "pds_rsi.gold_sales_daily",
+        "udl.stores"
+      ],
+      "writes": [
+        "pds_rsi.gold_exec_kpi_monthly"
+      ],
+      "activity_types": {
+        "DatabricksNotebook": 1,
+        "WebActivity": 2
+      },
+      "constructs": [],
+      "loc": 31,
+      "complexity": "low",
+      "complexity_score": 8,
+      "trigger": "TR_RSI_Daily_0200",
+      "parameters": {
+        "run_date": {
+          "type": "string",
+          "defaultValue": "2024-04-30"
+        }
+      },
+      "upstream_units": [
+        "mediaroi",
+        "otif",
+        "salesdaily"
+      ]
+    },
+    {
+      "id": "forecastaccuracy",
+      "pipeline": "PL_RSI_ForecastAccuracy",
+      "member_pipelines": [
+        "PL_RSI_ForecastAccuracy"
+      ],
+      "notebooks": [
+        "nb_forecast_accuracy"
+      ],
+      "reads": [
+        "bdl.demand_forecast",
+        "pds_rsi.silver_sales"
+      ],
+      "writes": [
+        "pds_rsi.gold_forecast_accuracy"
+      ],
+      "activity_types": {
+        "DatabricksNotebook": 1,
+        "Copy": 1,
+        "WebActivity": 1
+      },
+      "constructs": [
+        "week_trunc",
+        "window_fn"
+      ],
+      "loc": 33,
+      "complexity": "medium",
+      "complexity_score": 14,
+      "trigger": "TR_RSI_Weekly_Mon_0600",
+      "parameters": {
+        "run_date": {
+          "type": "string",
+          "defaultValue": "2024-04-30"
+        }
+      },
+      "upstream_units": [
+        "salesdaily"
+      ]
+    },
+    {
+      "id": "inventoryhealth",
+      "pipeline": "PL_RSI_InventoryHealth",
+      "member_pipelines": [
+        "PL_RSI_InventoryHealth"
+      ],
+      "notebooks": [
+        "nb_inventory_cover"
+      ],
+      "reads": [
+        "pds_rsi.silver_sales",
+        "udl.inventory_snapshots"
+      ],
+      "writes": [
+        "pds_rsi.gold_inventory_health"
+      ],
+      "activity_types": {
+        "DatabricksNotebook": 1,
+        "WebActivity": 1
+      },
+      "constructs": [
+        "window_fn"
+      ],
+      "loc": 30,
+      "complexity": "low",
+      "complexity_score": 10,
+      "trigger": "TR_RSI_Daily_0200",
+      "parameters": {
+        "run_date": {
+          "type": "string",
+          "defaultValue": "2024-04-30"
+        }
+      },
+      "upstream_units": [
+        "salesdaily"
+      ]
+    },
+    {
+      "id": "marketshare",
+      "pipeline": "PL_RSI_MarketShare",
+      "member_pipelines": [
+        "PL_RSI_MarketShare"
+      ],
+      "notebooks": [
+        "nb_market_share"
+      ],
+      "reads": [
+        "pds_rsi.dim_product",
+        "pds_rsi.dim_store",
+        "pds_rsi.gold_sales_daily"
+      ],
+      "writes": [
+        "pds_rsi.gold_market_share"
+      ],
+      "activity_types": {
+        "DatabricksNotebook": 1
+      },
+      "constructs": [
+        "sql_magic",
+        "window_fn"
+      ],
+      "loc": 12,
+      "complexity": "low",
+      "complexity_score": 10,
+      "trigger": "TR_RSI_Daily_0200",
+      "parameters": {},
+      "upstream_units": [
+        "productdim",
+        "salesdaily",
+        "storedimscd2"
+      ]
+    },
+    {
+      "id": "mediaroi",
+      "pipeline": "PL_RSI_MediaROI",
+      "member_pipelines": [
+        "PL_RSI_MediaROI"
+      ],
+      "notebooks": [
+        "nb_media_weekly",
+        "nb_media_roi"
+      ],
+      "reads": [
+        "bdl.media_spend",
+        "pds_rsi.gold_sales_daily",
+        "udl.products"
+      ],
+      "writes": [
+        "pds_rsi.gold_media_roi",
+        "pds_rsi.silver_media_weekly"
+      ],
+      "activity_types": {
+        "DatabricksNotebook": 2,
+        "WebActivity": 1
+      },
+      "constructs": [
+        "dynamic_sql",
+        "pivot",
+        "week_trunc"
+      ],
+      "loc": 49,
+      "complexity": "medium",
+      "complexity_score": 18,
+      "trigger": "TR_RSI_Daily_0200",
+      "parameters": {
+        "run_date": {
+          "type": "string",
+          "defaultValue": "2024-04-30"
+        }
+      },
+      "upstream_units": [
+        "salesdaily"
+      ]
+    },
+    {
+      "id": "otif",
+      "pipeline": "PL_RSI_OTIF",
+      "member_pipelines": [
+        "PL_RSI_OTIF",
+        "PL_RSI_OTIF_Region"
+      ],
+      "notebooks": [
+        "nb_otif_kpis"
+      ],
+      "reads": [
+        "udl.shipments",
+        "udl.stores"
+      ],
+      "writes": [
+        "pds_rsi.gold_otif"
+      ],
+      "activity_types": {
+        "ForEach": 1,
+        "ExecutePipeline": 1,
+        "WebActivity": 1,
+        "DatabricksNotebook": 1
+      },
+      "constructs": [
+        "replace_where"
+      ],
+      "loc": 24,
+      "complexity": "medium",
+      "complexity_score": 13,
+      "trigger": "TR_RSI_Daily_0200",
+      "parameters": {
+        "run_date": {
+          "type": "string",
+          "defaultValue": "2024-04-30"
+        },
+        "regions": {
+          "type": "array",
+          "defaultValue": [
+            "UKI",
+            "DACH",
+            "WEU",
+            "SA",
+            "NA",
+            "CEE"
+          ]
+        }
+      },
+      "upstream_units": []
+    },
+    {
+      "id": "pricefeatures",
+      "pipeline": "PL_RSI_PriceFeatures",
+      "member_pipelines": [
+        "PL_RSI_PriceFeatures"
+      ],
+      "notebooks": [
+        "nb_price_features"
+      ],
+      "reads": [
+        "pds_rsi.silver_sales_eur",
+        "udl.promotions"
+      ],
+      "writes": [
+        "pds_rsi.feat_price_elasticity"
+      ],
+      "activity_types": {
+        "DatabricksNotebook": 1
+      },
+      "constructs": [
+        "week_trunc",
+        "window_fn"
+      ],
+      "loc": 34,
+      "complexity": "medium",
+      "complexity_score": 12,
+      "trigger": "TR_RSI_Weekly_Mon_0600",
+      "parameters": {
+        "run_date": {
+          "type": "string",
+          "defaultValue": "2024-04-30"
+        }
+      },
+      "upstream_units": [
+        "salesdaily"
+      ]
+    },
+    {
+      "id": "productdim",
+      "pipeline": "PL_RSI_ProductDim",
+      "member_pipelines": [
+        "PL_RSI_ProductDim"
+      ],
+      "notebooks": [
+        "nb_product_dim"
+      ],
+      "reads": [
+        "bdl.sustainability_metrics",
+        "udl.products"
+      ],
+      "writes": [
+        "pds_rsi.dim_product"
+      ],
+      "activity_types": {
+        "DatabricksNotebook": 1
+      },
+      "constructs": [
+        "hashing",
+        "python_udf"
+      ],
+      "loc": 37,
+      "complexity": "medium",
+      "complexity_score": 12,
+      "trigger": "TR_RSI_Daily_0200",
+      "parameters": {},
+      "upstream_units": []
+    },
+    {
+      "id": "promoeffectiveness",
+      "pipeline": "PL_RSI_PromoEffectiveness",
+      "member_pipelines": [
+        "PL_RSI_PromoEffectiveness"
+      ],
+      "notebooks": [
+        "nb_promo_uplift"
+      ],
+      "reads": [
+        "pds_rsi.silver_sales_eur",
+        "udl.promotions",
+        "udl.stores"
+      ],
+      "writes": [
+        "pds_rsi.gold_promo_uplift"
+      ],
+      "activity_types": {
+        "DatabricksNotebook": 1,
+        "WebActivity": 1
+      },
+      "constructs": [],
+      "loc": 42,
+      "complexity": "low",
+      "complexity_score": 8,
+      "trigger": "TR_RSI_Daily_0200",
+      "parameters": {
+        "run_date": {
+          "type": "string",
+          "defaultValue": "2024-04-30"
+        }
+      },
+      "upstream_units": [
+        "salesdaily"
+      ]
+    },
+    {
+      "id": "ratingspulse",
+      "pipeline": "PL_RSI_RatingsPulse",
+      "member_pipelines": [
+        "PL_RSI_RatingsPulse"
+      ],
+      "notebooks": [
+        "nb_ratings_pulse"
+      ],
+      "reads": [
+        "bdl.customer_reviews"
+      ],
+      "writes": [
+        "pds_rsi.gold_ratings_pulse"
+      ],
+      "activity_types": {
+        "DatabricksNotebook": 1
+      },
+      "constructs": [
+        "range_window",
+        "window_fn"
+      ],
+      "loc": 32,
+      "complexity": "medium",
+      "complexity_score": 12,
+      "trigger": "TR_RSI_Daily_0200",
+      "parameters": {
+        "run_date": {
+          "type": "string",
+          "defaultValue": "2024-04-30"
+        }
+      },
+      "upstream_units": []
+    },
+    {
+      "id": "salesdaily",
+      "pipeline": "PL_RSI_SalesDaily",
+      "member_pipelines": [
+        "PL_RSI_SalesDaily",
+        "PL_RSI_Sales_FxConvert",
+        "PL_RSI_Sales_Cleanse"
+      ],
+      "notebooks": [
+        "nb_sales_daily_agg",
+        "nb_sales_fx_convert",
+        "nb_sales_cleanse"
+      ],
+      "reads": [
+        "udl.fx_rates",
+        "udl.sales_transactions",
+        "udl.stores"
+      ],
+      "writes": [
+        "pds_rsi.gold_sales_daily",
+        "pds_rsi.silver_sales",
+        "pds_rsi.silver_sales_eur"
+      ],
+      "activity_types": {
+        "Lookup": 1,
+        "ExecutePipeline": 2,
+        "DatabricksNotebook": 3,
+        "SqlServerStoredProcedure": 1,
+        "WebActivity": 1,
+        "GetMetadata": 1
+      },
+      "constructs": [
+        "as_of_join",
+        "window_fn"
+      ],
+      "loc": 60,
+      "complexity": "high",
+      "complexity_score": 27,
+      "trigger": "TR_RSI_Daily_0200",
+      "parameters": {
+        "run_date": {
+          "type": "string",
+          "defaultValue": "2024-04-30"
+        }
+      },
+      "upstream_units": []
+    },
+    {
+      "id": "storedimscd2",
+      "pipeline": "PL_RSI_StoreDimSCD2",
+      "member_pipelines": [
+        "PL_RSI_StoreDimSCD2"
+      ],
+      "notebooks": [
+        "nb_store_dim_init",
+        "nb_store_dim_scd2"
+      ],
+      "reads": [
+        "udl.store_updates",
+        "udl.stores"
+      ],
+      "writes": [
+        "pds_rsi.dim_store"
+      ],
+      "activity_types": {
+        "IfCondition": 1,
+        "DatabricksNotebook": 2
+      },
+      "constructs": [
+        "date_format",
+        "dynamic_sql",
+        "merge_scd2",
+        "notebook_chaining",
+        "window_fn"
+      ],
+      "loc": 39,
+      "complexity": "high",
+      "complexity_score": 23,
+      "trigger": "TR_RSI_Daily_0200",
+      "parameters": {
+        "full_reload": {
+          "type": "bool",
+          "defaultValue": false
+        }
+      },
+      "upstream_units": []
+    }
+  ],
+  "waves": [
+    [
+      "otif",
+      "productdim",
+      "ratingspulse",
+      "salesdaily",
+      "storedimscd2"
+    ],
+    [
+      "forecastaccuracy",
+      "inventoryhealth",
+      "marketshare",
+      "mediaroi",
+      "pricefeatures",
+      "promoeffectiveness"
+    ],
+    [
+      "execkpipack"
+    ]
+  ],
+  "findings": [
+    {
+      "severity": "medium",
+      "unit": "forecastaccuracy",
+      "kind": "semantic_trap",
+      "detail": "Spark date_trunc('week') is Monday-based; BigQuery DATE_TRUNC(.., WEEK) is Sunday-based -> use WEEK(MONDAY)."
+    },
+    {
+      "severity": "high",
+      "unit": "inventoryhealth",
+      "kind": "race_condition",
+      "detail": "PL_RSI_InventoryHealth reads pds_rsi.silver_sales produced by PL_RSI_SalesDaily but the master pipeline runs them in parallel (no dependsOn). Target DAG must add salesdaily >> inventoryhealth."
+    },
+    {
+      "severity": "medium",
+      "unit": "mediaroi",
+      "kind": "semantic_trap",
+      "detail": "Spark date_trunc('week') is Monday-based; BigQuery DATE_TRUNC(.., WEEK) is Sunday-based -> use WEEK(MONDAY)."
+    },
+    {
+      "severity": "medium",
+      "unit": "pricefeatures",
+      "kind": "semantic_trap",
+      "detail": "Spark date_trunc('week') is Monday-based; BigQuery DATE_TRUNC(.., WEEK) is Sunday-based -> use WEEK(MONDAY)."
+    },
+    {
+      "severity": "medium",
+      "unit": "productdim",
+      "kind": "python_udf",
+      "detail": "Python UDFs must be rewritten as BigQuery SQL expressions (or SQL UDFs)."
+    }
+  ],
+  "source_tables": [
+    "bdl.customer_reviews",
+    "bdl.demand_forecast",
+    "bdl.media_spend",
+    "bdl.sustainability_metrics",
+    "udl.fx_rates",
+    "udl.inventory_snapshots",
+    "udl.products",
+    "udl.promotions",
+    "udl.sales_transactions",
+    "udl.shipments",
+    "udl.store_updates",
+    "udl.stores"
+  ]
+}

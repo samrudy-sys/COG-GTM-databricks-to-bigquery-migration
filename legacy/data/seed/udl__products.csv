@@ -1,0 +1,121 @@
+sku,product_name,brand,category,subcategory,pack_size_ml,launch_date,is_active
+SKU00001,Brightwave Laundry Eco 1,Brightwave,Home Care,Laundry,500,2021-03-23,true
+SKU00002,Brightwave Laundry Fresh 2,Brightwave,Home Care,Laundry,500,2021-07-17,true
+SKU00003,Brightwave Laundry Original 3,Brightwave,Home Care,Laundry,400,2018-05-19,true
+SKU00004,Brightwave Laundry Eco 4,Brightwave,Home Care,Laundry,1000,2018-05-04,true
+SKU00005,Brightwave Laundry Eco 5,Brightwave,Home Care,Laundry,150,2021-11-11,true
+SKU00006,Brightwave Laundry Sensitive 6,Brightwave,Home Care,Laundry,750,2019-02-02,true
+SKU00007,Brightwave Laundry Sensitive 7,Brightwave,Home Care,Laundry,400,2021-08-14,true
+SKU00008,Brightwave Laundry Fresh 8,Brightwave,Home Care,Laundry,750,2022-09-27,true
+SKU00009,Brightwave Laundry Max 9,Brightwave,Home Care,Laundry,750,2022-12-16,true
+SKU00010,Brightwave Laundry Eco 10,Brightwave,Home Care,Laundry,400,2020-11-30,true
+SKU00011,Brightwave Laundry Eco 11,Brightwave,Home Care,Laundry,1000,2018-08-27,true
+SKU00012,Brightwave Laundry Eco 12,Brightwave,Home Care,Laundry,750,2023-10-31,true
+SKU00013,Brightwave Dishwash Eco 13,Brightwave,Home Care,Dishwash,250,2021-10-04,true
+SKU00014,Brightwave Dishwash Sensitive 14,Brightwave,Home Care,Dishwash,500,2024-04-16,true
+SKU00015,Brightwave Dishwash Eco 15,Brightwave,Home Care,Dishwash,750,2023-04-27,false
+SKU00016,Brightwave Dishwash Eco 16,Brightwave,Home Care,Dishwash,500,2018-08-25,true
+SKU00017,Brightwave Dishwash Fresh 17,Brightwave,Home Care,Dishwash,500,2019-04-22,true
+SKU00018,Brightwave Dishwash Original 18,Brightwave,Home Care,Dishwash,750,2024-02-29,true
+SKU00019,Brightwave Dishwash Max 19,Brightwave,Home Care,Dishwash,500,2020-12-08,true
+SKU00020,Brightwave Dishwash Eco 20,Brightwave,Home Care,Dishwash,1000,2023-04-28,true
+SKU00021,Brightwave Dishwash Fresh 21,Brightwave,Home Care,Dishwash,400,2020-01-19,true
+SKU00022,Brightwave Dishwash Eco 22,Brightwave,Home Care,Dishwash,250,2019-07-07,false
+SKU00023,Brightwave Dishwash Fresh 23,Brightwave,Home Care,Dishwash,400,2018-03-28,true
+SKU00024,Brightwave Dishwash Fresh 24,Brightwave,Home Care,Dishwash,750,2018-01-17,true
+SKU00025,Verdana Skin Care Sensitive 25,Verdana,Beauty & Wellbeing,Skin Care,1000,2023-03-24,true
+SKU00026,Verdana Skin Care Max 26,Verdana,Beauty & Wellbeing,Skin Care,250,2020-08-11,true
+SKU00027,Verdana Skin Care Fresh 27,Verdana,Beauty & Wellbeing,Skin Care,750,2023-02-22,true
+SKU00028,Verdana Skin Care Max 28,Verdana,Beauty & Wellbeing,Skin Care,400,2019-09-15,true
+SKU00029,Verdana Skin Care Max 29,Verdana,Beauty & Wellbeing,Skin Care,1000,2021-08-06,true
+SKU00030,Verdana Skin Care Eco 30,Verdana,Beauty & Wellbeing,Skin Care,1000,2023-08-10,true
+SKU00031,Verdana Skin Care Max 31,Verdana,Beauty & Wellbeing,Skin Care,750,2021-08-05,true
+SKU00032,Verdana Skin Care Sensitive 32,Verdana,Beauty & Wellbeing,Skin Care,1000,2019-09-11,true
+SKU00033,Verdana Skin Care Eco 33,Verdana,Beauty & Wellbeing,Skin Care,400,2020-06-25,true
+SKU00034,Verdana Skin Care Max 34,Verdana,Beauty & Wellbeing,Skin Care,250,2024-02-13,true
+SKU00035,Verdana Skin Care Original 35,Verdana,Beauty & Wellbeing,Skin Care,400,2021-11-24,true
+SKU00036,Verdana Skin Care Original 36,Verdana,Beauty & Wellbeing,Skin Care,250,2022-09-05,false
+SKU00037,Verdana Hair Care Max 37,Verdana,Beauty & Wellbeing,Hair Care,150,2019-11-14,true
+SKU00038,Verdana Hair Care Sensitive 38,Verdana,Beauty & Wellbeing,Hair Care,750,2021-01-16,true
+SKU00039,Verdana Hair Care Max 39,Verdana,Beauty & Wellbeing,Hair Care,1000,2021-04-16,true
+SKU00040,Verdana Hair Care Max 40,Verdana,Beauty & Wellbeing,Hair Care,1000,2019-12-22,true
+SKU00041,Verdana Hair Care Original 41,Verdana,Beauty & Wellbeing,Hair Care,400,2021-02-16,true
+SKU00042,Verdana Hair Care Sensitive 42,Verdana,Beauty & Wellbeing,Hair Care,150,2022-03-19,true
+SKU00043,Verdana Hair Care Fresh 43,Verdana,Beauty & Wellbeing,Hair Care,500,2023-12-30,true
+SKU00044,Verdana Hair Care Max 44,Verdana,Beauty & Wellbeing,Hair Care,750,2018-03-28,true
+SKU00045,Verdana Hair Care Original 45,Verdana,Beauty & Wellbeing,Hair Care,1000,2018-11-01,true
+SKU00046,Verdana Hair Care Max 46,Verdana,Beauty & Wellbeing,Hair Care,1000,2021-01-29,true
+SKU00047,Verdana Hair Care Sensitive 47,Verdana,Beauty & Wellbeing,Hair Care,400,2020-09-20,true
+SKU00048,Verdana Hair Care Eco 48,Verdana,Beauty & Wellbeing,Hair Care,1000,2023-12-28,true
+SKU00049,Nordhaven Deodorant Original 49,Nordhaven,Personal Care,Deodorant,250,2024-04-11,true
+SKU00050,Nordhaven Deodorant Fresh 50,Nordhaven,Personal Care,Deodorant,250,2022-11-01,true
+SKU00051,Nordhaven Deodorant Sensitive 51,Nordhaven,Personal Care,Deodorant,400,2021-11-30,false
+SKU00052,Nordhaven Deodorant Fresh 52,Nordhaven,Personal Care,Deodorant,400,2019-04-17,true
+SKU00053,Nordhaven Deodorant Original 53,Nordhaven,Personal Care,Deodorant,250,2022-04-14,true
+SKU00054,Nordhaven Deodorant Max 54,Nordhaven,Personal Care,Deodorant,750,2020-11-02,true
+SKU00055,Nordhaven Deodorant Sensitive 55,Nordhaven,Personal Care,Deodorant,1000,2019-03-04,true
+SKU00056,Nordhaven Deodorant Eco 56,Nordhaven,Personal Care,Deodorant,400,2019-02-14,true
+SKU00057,Nordhaven Deodorant Max 57,Nordhaven,Personal Care,Deodorant,400,2021-05-24,true
+SKU00058,Nordhaven Deodorant Eco 58,Nordhaven,Personal Care,Deodorant,250,2019-03-05,true
+SKU00059,Nordhaven Deodorant Max 59,Nordhaven,Personal Care,Deodorant,750,2022-05-12,false
+SKU00060,Nordhaven Deodorant Eco 60,Nordhaven,Personal Care,Deodorant,1000,2022-04-11,true
+SKU00061,Nordhaven Body Wash Sensitive 61,Nordhaven,Personal Care,Body Wash,400,2019-07-10,true
+SKU00062,Nordhaven Body Wash Eco 62,Nordhaven,Personal Care,Body Wash,400,2022-10-10,true
+SKU00063,Nordhaven Body Wash Max 63,Nordhaven,Personal Care,Body Wash,500,2023-04-26,true
+SKU00064,Nordhaven Body Wash Eco 64,Nordhaven,Personal Care,Body Wash,1000,2024-04-01,true
+SKU00065,Nordhaven Body Wash Sensitive 65,Nordhaven,Personal Care,Body Wash,500,2020-12-11,true
+SKU00066,Nordhaven Body Wash Eco 66,Nordhaven,Personal Care,Body Wash,250,2020-01-18,true
+SKU00067,Nordhaven Body Wash Max 67,Nordhaven,Personal Care,Body Wash,250,2019-04-27,true
+SKU00068,Nordhaven Body Wash Original 68,Nordhaven,Personal Care,Body Wash,750,2023-05-01,true
+SKU00069,Nordhaven Body Wash Fresh 69,Nordhaven,Personal Care,Body Wash,750,2021-12-25,true
+SKU00070,Nordhaven Body Wash Original 70,Nordhaven,Personal Care,Body Wash,250,2022-12-28,false
+SKU00071,Nordhaven Body Wash Sensitive 71,Nordhaven,Personal Care,Body Wash,150,2022-01-08,true
+SKU00072,Nordhaven Body Wash Sensitive 72,Nordhaven,Personal Care,Body Wash,750,2022-10-14,true
+SKU00073,Saffra Condiments Eco 73,Saffra,Foods,Condiments,750,2018-08-01,true
+SKU00074,Saffra Condiments Max 74,Saffra,Foods,Condiments,1000,2024-04-16,true
+SKU00075,Saffra Condiments Original 75,Saffra,Foods,Condiments,400,2019-11-06,true
+SKU00076,Saffra Condiments Fresh 76,Saffra,Foods,Condiments,1000,2019-04-28,true
+SKU00077,Saffra Condiments Eco 77,Saffra,Foods,Condiments,750,2020-12-23,true
+SKU00078,Saffra Condiments Fresh 78,Saffra,Foods,Condiments,1000,2021-11-30,true
+SKU00079,Saffra Condiments Fresh 79,Saffra,Foods,Condiments,250,2018-06-10,true
+SKU00080,Saffra Condiments Sensitive 80,Saffra,Foods,Condiments,400,2019-03-04,true
+SKU00081,Saffra Condiments Original 81,Saffra,Foods,Condiments,250,2021-08-31,true
+SKU00082,Saffra Condiments Eco 82,Saffra,Foods,Condiments,250,2023-01-25,false
+SKU00083,Saffra Condiments Max 83,Saffra,Foods,Condiments,750,2021-08-05,true
+SKU00084,Saffra Condiments Sensitive 84,Saffra,Foods,Condiments,1000,2023-04-22,true
+SKU00085,Saffra Soups Max 85,Saffra,Foods,Soups,1000,2021-05-19,false
+SKU00086,Saffra Soups Sensitive 86,Saffra,Foods,Soups,400,2022-01-16,true
+SKU00087,Saffra Soups Sensitive 87,Saffra,Foods,Soups,150,2018-06-05,true
+SKU00088,Saffra Soups Fresh 88,Saffra,Foods,Soups,250,2021-04-14,true
+SKU00089,Saffra Soups Fresh 89,Saffra,Foods,Soups,400,2023-12-31,true
+SKU00090,Saffra Soups Eco 90,Saffra,Foods,Soups,750,2018-02-13,true
+SKU00091,Saffra Soups Fresh 91,Saffra,Foods,Soups,1000,2020-06-30,true
+SKU00092,Saffra Soups Fresh 92,Saffra,Foods,Soups,750,2021-07-26,true
+SKU00093,Saffra Soups Original 93,Saffra,Foods,Soups,500,2024-03-06,true
+SKU00094,Saffra Soups Max 94,Saffra,Foods,Soups,500,2022-02-20,true
+SKU00095,Saffra Soups Max 95,Saffra,Foods,Soups,750,2020-08-18,true
+SKU00096,Saffra Soups Max 96,Saffra,Foods,Soups,400,2023-12-17,true
+SKU00097,Glacio Tubs Original 97,Glacio,Ice Cream,Tubs,250,2022-08-01,true
+SKU00098,Glacio Tubs Max 98,Glacio,Ice Cream,Tubs,750,2019-10-06,true
+SKU00099,Glacio Tubs Fresh 99,Glacio,Ice Cream,Tubs,1000,2023-01-18,true
+SKU00100,Glacio Tubs Eco 100,Glacio,Ice Cream,Tubs,150,2023-06-03,true
+SKU00101,Glacio Tubs Sensitive 101,Glacio,Ice Cream,Tubs,750,2023-06-02,true
+SKU00102,Glacio Tubs Sensitive 102,Glacio,Ice Cream,Tubs,400,2022-03-17,true
+SKU00103,Glacio Tubs Original 103,Glacio,Ice Cream,Tubs,1000,2022-07-11,true
+SKU00104,Glacio Tubs Sensitive 104,Glacio,Ice Cream,Tubs,250,2018-02-01,true
+SKU00105,Glacio Tubs Original 105,Glacio,Ice Cream,Tubs,150,2018-01-22,true
+SKU00106,Glacio Tubs Fresh 106,Glacio,Ice Cream,Tubs,750,2018-07-03,true
+SKU00107,Glacio Tubs Eco 107,Glacio,Ice Cream,Tubs,750,2024-01-04,false
+SKU00108,Glacio Tubs Max 108,Glacio,Ice Cream,Tubs,750,2022-10-24,false
+SKU00109,Glacio Sticks Original 109,Glacio,Ice Cream,Sticks,400,2019-10-19,true
+SKU00110,Glacio Sticks Max 110,Glacio,Ice Cream,Sticks,750,2018-02-23,true
+SKU00111,Glacio Sticks Original 111,Glacio,Ice Cream,Sticks,750,2020-06-13,false
+SKU00112,Glacio Sticks Original 112,Glacio,Ice Cream,Sticks,500,2021-03-03,true
+SKU00113,Glacio Sticks Fresh 113,Glacio,Ice Cream,Sticks,400,2022-02-27,false
+SKU00114,Glacio Sticks Original 114,Glacio,Ice Cream,Sticks,1000,2023-10-07,true
+SKU00115,Glacio Sticks Eco 115,Glacio,Ice Cream,Sticks,400,2022-07-01,false
+SKU00116,Glacio Sticks Sensitive 116,Glacio,Ice Cream,Sticks,1000,2022-03-19,false
+SKU00117,Glacio Sticks Sensitive 117,Glacio,Ice Cream,Sticks,250,2018-06-08,true
+SKU00118,Glacio Sticks Original 118,Glacio,Ice Cream,Sticks,1000,2022-10-11,true
+SKU00119,Glacio Sticks Original 119,Glacio,Ice Cream,Sticks,250,2019-03-17,true
+SKU00120,Glacio Sticks Max 120,Glacio,Ice Cream,Sticks,400,2022-06-12,true

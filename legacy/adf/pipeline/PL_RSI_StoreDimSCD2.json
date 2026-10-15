@@ -1,0 +1,85 @@
+{
+    "name": "PL_RSI_StoreDimSCD2",
+    "properties": {
+        "description": "Store dimension SCD2",
+        "activities": [
+            {
+                "name": "If_Full_Reload",
+                "type": "IfCondition",
+                "dependsOn": [],
+                "userProperties": [],
+                "typeProperties": {
+                    "expression": {
+                        "value": "@equals(pipeline().parameters.full_reload, true)",
+                        "type": "Expression"
+                    },
+                    "ifTrueActivities": [
+                        {
+                            "name": "NB_Store_Dim_Init",
+                            "type": "DatabricksNotebook",
+                            "dependsOn": [],
+                            "policy": {
+                                "timeout": "0.02:00:00",
+                                "retry": 2,
+                                "retryIntervalInSeconds": 300,
+                                "secureOutput": false,
+                                "secureInput": false
+                            },
+                            "userProperties": [],
+                            "typeProperties": {
+                                "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_store_dim_init",
+                                "baseParameters": {}
+                            },
+                            "linkedServiceName": {
+                                "referenceName": "LS_Databricks_RSI",
+                                "type": "LinkedServiceReference"
+                            }
+                        }
+                    ],
+                    "ifFalseActivities": []
+                }
+            },
+            {
+                "name": "NB_Store_Dim_SCD2",
+                "type": "DatabricksNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "If_Full_Reload",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_store_dim_scd2",
+                    "baseParameters": {}
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        ],
+        "parameters": {
+            "full_reload": {
+                "type": "bool",
+                "defaultValue": false
+            }
+        },
+        "folder": {
+            "name": "RSI/MasterData"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}

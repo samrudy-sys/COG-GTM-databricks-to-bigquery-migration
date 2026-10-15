@@ -1,0 +1,52 @@
+{
+    "name": "PL_RSI_Sales_Cleanse",
+    "properties": {
+        "description": "Bronze->silver cleanse of POS transactions",
+        "activities": [
+            {
+                "name": "NB_Sales_Cleanse",
+                "type": "DatabricksNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_sales_cleanse",
+                    "baseParameters": {
+                        "run_date": "@pipeline().parameters.run_date",
+                        "lookback_days": "@pipeline().parameters.lookback_days",
+                        "watermark": "@pipeline().parameters.watermark"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        ],
+        "parameters": {
+            "run_date": {
+                "type": "string"
+            },
+            "lookback_days": {
+                "type": "string",
+                "defaultValue": "120"
+            },
+            "watermark": {
+                "type": "string"
+            }
+        },
+        "folder": {
+            "name": "RSI/Sales/Children"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}

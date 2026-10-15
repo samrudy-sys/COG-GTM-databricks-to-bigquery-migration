@@ -1,0 +1,24 @@
+{
+    "name": "LS_Databricks_RSI",
+    "properties": {
+        "description": "Job cluster per activity",
+        "annotations": [],
+        "type": "AzureDatabricks",
+        "typeProperties": {
+            "domain": "https://adb-4471029384756123.3.azuredatabricks.net",
+            "authentication": "MSI",
+            "workspaceResourceId": "/subscriptions/0000/resourceGroups/rg-pds-rsi-prd/providers/Microsoft.Databricks/workspaces/dbw-pds-rsi-prd",
+            "newClusterNodeType": "Standard_D8ds_v5",
+            "newClusterNumOfWorker": "2:8",
+            "newClusterVersion": "13.3.x-scala2.12",
+            "newClusterSparkConf": {
+                "spark.sql.ansi.enabled": "false",
+                "spark.databricks.delta.optimizeWrite.enabled": "true"
+            },
+            "newClusterInitScripts": [
+                "/Volumes/pds_rsi/ops/init/install_libs.sh"
+            ],
+            "policyId": "E06216CAA0000360"
+        }
+    }
+}

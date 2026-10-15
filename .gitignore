@@ -1,0 +1,8 @@
+.parity/
+__pycache__/
+*.pyc
+logs/
+metastore_db/
+derby.log
+.venv
+reports/index.html

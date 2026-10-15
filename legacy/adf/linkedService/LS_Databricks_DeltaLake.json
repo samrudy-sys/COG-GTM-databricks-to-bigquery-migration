@@ -1,0 +1,20 @@
+{
+    "name": "LS_Databricks_DeltaLake",
+    "properties": {
+        "description": "",
+        "annotations": [],
+        "type": "AzureDatabricksDeltaLake",
+        "typeProperties": {
+            "domain": "https://adb-4471029384756123.3.azuredatabricks.net",
+            "clusterId": "0412-093011-sql-wh",
+            "accessToken": {
+                "type": "AzureKeyVaultSecret",
+                "store": {
+                    "referenceName": "LS_KeyVault_RSI",
+                    "type": "LinkedServiceReference"
+                },
+                "secretName": "dbx-sql-token"
+            }
+        }
+    }
+}

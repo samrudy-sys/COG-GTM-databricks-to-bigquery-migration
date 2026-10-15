@@ -1,0 +1,15 @@
+{
+    "name": "DS_Delta_ForecastAccuracy",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "LS_Databricks_DeltaLake",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureDatabricksDeltaLakeDataset",
+        "typeProperties": {
+            "database": "pds_rsi",
+            "table": "gold_forecast_accuracy"
+        }
+    }
+}

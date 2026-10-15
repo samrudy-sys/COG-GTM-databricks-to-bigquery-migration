@@ -1,0 +1,71 @@
+{
+    "name": "PL_RSI_Sales_FxConvert",
+    "properties": {
+        "description": "As-of FX conversion to EUR",
+        "activities": [
+            {
+                "name": "Check_FX_Published",
+                "type": "GetMetadata",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.00:10:00",
+                    "retry": 3,
+                    "retryIntervalInSeconds": 600
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "dataset": {
+                        "referenceName": "DS_ADLS_FxRates",
+                        "type": "DatasetReference"
+                    },
+                    "fieldList": [
+                        "lastModified",
+                        "exists"
+                    ]
+                }
+            },
+            {
+                "name": "NB_Sales_FxConvert",
+                "type": "DatabricksNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "Check_FX_Published",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_sales_fx_convert",
+                    "baseParameters": {
+                        "run_date": "@pipeline().parameters.run_date"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        ],
+        "parameters": {
+            "run_date": {
+                "type": "string"
+            }
+        },
+        "folder": {
+            "name": "RSI/Sales/Children"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}

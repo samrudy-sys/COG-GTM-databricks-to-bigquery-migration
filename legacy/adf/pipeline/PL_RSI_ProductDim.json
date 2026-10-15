@@ -1,0 +1,37 @@
+{
+    "name": "PL_RSI_ProductDim",
+    "properties": {
+        "description": "Product dimension + ESG scorecard",
+        "activities": [
+            {
+                "name": "NB_Product_Dim",
+                "type": "DatabricksNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_product_dim",
+                    "baseParameters": {}
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        ],
+        "parameters": {},
+        "folder": {
+            "name": "RSI/MasterData"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}

@@ -1,0 +1,127 @@
+{
+    "name": "PL_RSI_ForecastAccuracy",
+    "properties": {
+        "description": "Weekly forecast accuracy; published to the Demand Planning web app DB (Azure SQL)",
+        "activities": [
+            {
+                "name": "NB_Forecast_Accuracy",
+                "type": "DatabricksNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_forecast_accuracy",
+                    "baseParameters": {
+                        "run_date": "@pipeline().parameters.run_date"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Copy_To_DemandPlanningDB",
+                "type": "Copy",
+                "dependsOn": [
+                    {
+                        "activity": "NB_Forecast_Accuracy",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.01:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 120
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureDatabricksDeltaLakeSource",
+                        "query": "SELECT sku, country, weeks, mape_pct, bias_pct, accuracy_pct FROM pds_rsi.gold_forecast_accuracy"
+                    },
+                    "sink": {
+                        "type": "AzureSqlSink",
+                        "writeBehavior": "upsert",
+                        "upsertSettings": {
+                            "useTempDB": true,
+                            "keys": [
+                                "sku",
+                                "country"
+                            ]
+                        },
+                        "sqlWriterUseTableLock": false
+                    },
+                    "enableStaging": false
+                },
+                "inputs": [
+                    {
+                        "referenceName": "DS_Delta_ForecastAccuracy",
+                        "type": "DatasetReference"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "DS_AzureSql_ForecastAccuracy",
+                        "type": "DatasetReference"
+                    }
+                ]
+            },
+            {
+                "name": "Notify_Failure",
+                "type": "WebActivity",
+                "dependsOn": [
+                    {
+                        "activity": "NB_Forecast_Accuracy",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    },
+                    {
+                        "activity": "Copy_To_DemandPlanningDB",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.00:10:00",
+                    "retry": 0
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "url": "https://prod-27.westeurope.logic.azure.com:443/workflows/7f3c1e/triggers/manual/paths/invoke",
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body": {
+                        "value": "@concat('{\"pipeline\":\"', pipeline().Pipeline, '\",\"runId\":\"', pipeline().RunId, '\",\"product\":\"pds-rsi\",\"severity\":\"P3\"}')",
+                        "type": "Expression"
+                    }
+                }
+            }
+        ],
+        "parameters": {
+            "run_date": {
+                "type": "string",
+                "defaultValue": "2024-04-30"
+            }
+        },
+        "folder": {
+            "name": "RSI/Planning"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}

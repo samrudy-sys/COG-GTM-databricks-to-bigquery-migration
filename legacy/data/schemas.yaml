@@ -1,0 +1,90 @@
+# Source tables in the Universal Data Lake (udl) and Business Data Lake (bdl).
+# On Azure these are Delta tables in Unity Catalog; on GCP they land in BigQuery
+# datasets of the same name. Types: string | int | double | date | timestamp | boolean
+udl.sales_transactions:
+  txn_id: string
+  txn_ts: timestamp
+  ingest_ts: timestamp
+  store_id: string
+  sku: string
+  qty: int
+  unit_price: double
+  discount_amt: double
+  currency: string
+  channel: string
+udl.products:
+  sku: string
+  product_name: string
+  brand: string
+  category: string
+  subcategory: string
+  pack_size_ml: int
+  launch_date: date
+  is_active: boolean
+udl.stores:
+  store_id: string
+  retailer: string
+  country: string
+  region: string
+  store_format: string
+  open_date: date
+  updated_at: timestamp
+udl.store_updates:
+  store_id: string
+  retailer: string
+  country: string
+  region: string
+  store_format: string
+  open_date: date
+  updated_at: timestamp
+udl.fx_rates:
+  currency: string
+  rate_date: date
+  rate_to_eur: double
+udl.promotions:
+  promo_id: string
+  sku: string
+  retailer: string
+  start_date: date
+  end_date: date
+  promo_type: string
+  discount_pct: double
+udl.inventory_snapshots:
+  snapshot_date: date
+  store_id: string
+  sku: string
+  on_hand_units: int
+udl.shipments:
+  shipment_id: string
+  dc_id: string
+  store_id: string
+  sku: string
+  ordered_units: int
+  shipped_units: int
+  promised_date: date
+  delivered_date: date
+bdl.media_spend:
+  spend_date: date
+  brand: string
+  country: string
+  media_channel: string
+  spend_eur: double
+  impressions: int
+bdl.customer_reviews:
+  review_id: string
+  sku: string
+  retailer: string
+  review_date: date
+  rating: int
+  review_text: string
+bdl.demand_forecast:
+  week_start: date
+  sku: string
+  country: string
+  forecast_units: double
+  forecast_version: string
+bdl.sustainability_metrics:
+  sku: string
+  plastic_g: double
+  recycled_content_pct: double
+  carbon_g_co2e: double

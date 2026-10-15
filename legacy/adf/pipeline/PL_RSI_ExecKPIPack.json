@@ -1,0 +1,107 @@
+{
+    "name": "PL_RSI_ExecKPIPack",
+    "properties": {
+        "description": "Monthly exec KPI pack + Power BI refresh",
+        "activities": [
+            {
+                "name": "NB_Exec_KPI_Pack",
+                "type": "DatabricksNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_exec_kpi_pack",
+                    "baseParameters": {
+                        "run_date": "@pipeline().parameters.run_date"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Refresh_PowerBI_ExecPack",
+                "type": "WebActivity",
+                "dependsOn": [
+                    {
+                        "activity": "NB_Exec_KPI_Pack",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.00:30:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 60
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "url": "https://api.powerbi.com/v1.0/myorg/groups/3b9a7c2e-0d41-4f7e-9a51-6c1f0e2b8d77/datasets/91d0c6aa-55e3-4c0b-a3c2-2f8e7f1d4b19/refreshes",
+                    "method": "POST",
+                    "body": {
+                        "notifyOption": "MailOnFailure"
+                    },
+                    "authentication": {
+                        "type": "MSI",
+                        "resource": "https://analysis.windows.net/powerbi/api"
+                    }
+                }
+            },
+            {
+                "name": "Notify_Failure",
+                "type": "WebActivity",
+                "dependsOn": [
+                    {
+                        "activity": "NB_Exec_KPI_Pack",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    },
+                    {
+                        "activity": "Refresh_PowerBI_ExecPack",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.00:10:00",
+                    "retry": 0
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "url": "https://prod-27.westeurope.logic.azure.com:443/workflows/7f3c1e/triggers/manual/paths/invoke",
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body": {
+                        "value": "@concat('{\"pipeline\":\"', pipeline().Pipeline, '\",\"runId\":\"', pipeline().RunId, '\",\"product\":\"pds-rsi\",\"severity\":\"P3\"}')",
+                        "type": "Expression"
+                    }
+                }
+            }
+        ],
+        "parameters": {
+            "run_date": {
+                "type": "string",
+                "defaultValue": "2024-04-30"
+            }
+        },
+        "folder": {
+            "name": "RSI/Exec"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}

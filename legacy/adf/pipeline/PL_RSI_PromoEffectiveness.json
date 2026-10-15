@@ -1,0 +1,73 @@
+{
+    "name": "PL_RSI_PromoEffectiveness",
+    "properties": {
+        "description": "Promotion uplift vs 28-day baseline",
+        "activities": [
+            {
+                "name": "NB_Promo_Uplift",
+                "type": "DatabricksNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_promo_uplift",
+                    "baseParameters": {
+                        "run_date": "@pipeline().parameters.run_date",
+                        "baseline_days": "28"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Notify_Failure",
+                "type": "WebActivity",
+                "dependsOn": [
+                    {
+                        "activity": "NB_Promo_Uplift",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.00:10:00",
+                    "retry": 0
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "url": "https://prod-27.westeurope.logic.azure.com:443/workflows/7f3c1e/triggers/manual/paths/invoke",
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body": {
+                        "value": "@concat('{\"pipeline\":\"', pipeline().Pipeline, '\",\"runId\":\"', pipeline().RunId, '\",\"product\":\"pds-rsi\",\"severity\":\"P3\"}')",
+                        "type": "Expression"
+                    }
+                }
+            }
+        ],
+        "parameters": {
+            "run_date": {
+                "type": "string",
+                "defaultValue": "2024-04-30"
+            }
+        },
+        "folder": {
+            "name": "RSI/Commercial"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}

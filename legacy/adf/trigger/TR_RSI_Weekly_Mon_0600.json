@@ -1,0 +1,49 @@
+{
+    "name": "TR_RSI_Weekly_Mon_0600",
+    "properties": {
+        "annotations": [
+            "product:pds-rsi"
+        ],
+        "runtimeState": "Started",
+        "pipelines": [
+            {
+                "pipelineReference": {
+                    "referenceName": "PL_RSI_ForecastAccuracy",
+                    "type": "PipelineReference"
+                },
+                "parameters": {
+                    "run_date": "@formatDateTime(addDays(trigger().scheduledTime, -1), 'yyyy-MM-dd')"
+                }
+            },
+            {
+                "pipelineReference": {
+                    "referenceName": "PL_RSI_PriceFeatures",
+                    "type": "PipelineReference"
+                },
+                "parameters": {
+                    "run_date": "@formatDateTime(addDays(trigger().scheduledTime, -1), 'yyyy-MM-dd')"
+                }
+            }
+        ],
+        "type": "ScheduleTrigger",
+        "typeProperties": {
+            "recurrence": {
+                "frequency": "Week",
+                "interval": 1,
+                "startTime": "2022-03-07T06:00:00Z",
+                "timeZone": "UTC",
+                "schedule": {
+                    "weekDays": [
+                        "Monday"
+                    ],
+                    "hours": [
+                        6
+                    ],
+                    "minutes": [
+                        0
+                    ]
+                }
+            }
+        }
+    }
+}

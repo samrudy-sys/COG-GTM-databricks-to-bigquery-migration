@@ -1,0 +1,19 @@
+{
+    "name": "LS_AzureSql_ControlDB",
+    "properties": {
+        "description": "",
+        "annotations": [],
+        "type": "AzureSqlDatabase",
+        "typeProperties": {
+            "connectionString": "Integrated Security=False;Encrypt=True;Data Source=sql-pds-ctl-prd.database.windows.net;Initial Catalog=controldb",
+            "password": {
+                "type": "AzureKeyVaultSecret",
+                "store": {
+                    "referenceName": "LS_KeyVault_RSI",
+                    "type": "LinkedServiceReference"
+                },
+                "secretName": "controldb-password"
+            }
+        }
+    }
+}

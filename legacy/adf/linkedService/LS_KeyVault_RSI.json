@@ -1,0 +1,11 @@
+{
+    "name": "LS_KeyVault_RSI",
+    "properties": {
+        "description": "",
+        "annotations": [],
+        "type": "AzureKeyVault",
+        "typeProperties": {
+            "baseUrl": "https://kv-pds-rsi-prd-weu.vault.azure.net/"
+        }
+    }
+}

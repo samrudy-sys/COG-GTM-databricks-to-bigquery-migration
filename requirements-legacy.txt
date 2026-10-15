@@ -1,0 +1,3 @@
+# legacy side (replay ADF + Databricks notebooks locally); needs Java 17
+pyspark==3.5.3
+delta-spark==3.2.1

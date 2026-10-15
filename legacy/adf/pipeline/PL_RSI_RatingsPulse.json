@@ -1,0 +1,45 @@
+{
+    "name": "PL_RSI_RatingsPulse",
+    "properties": {
+        "description": "Rolling 30d ratings & NPS",
+        "activities": [
+            {
+                "name": "NB_Ratings_Pulse",
+                "type": "DatabricksNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_ratings_pulse",
+                    "baseParameters": {
+                        "run_date": "@pipeline().parameters.run_date",
+                        "window_days": "30"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        ],
+        "parameters": {
+            "run_date": {
+                "type": "string",
+                "defaultValue": "2024-04-30"
+            }
+        },
+        "folder": {
+            "name": "RSI/Consumer"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}

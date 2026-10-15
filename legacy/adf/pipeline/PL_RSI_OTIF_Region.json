@@ -1,0 +1,47 @@
+{
+    "name": "PL_RSI_OTIF_Region",
+    "properties": {
+        "description": "OTIF for a single region partition",
+        "activities": [
+            {
+                "name": "NB_OTIF_KPIs",
+                "type": "DatabricksNotebook",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_otif_kpis",
+                    "baseParameters": {
+                        "region": "@pipeline().parameters.region",
+                        "run_date": "@pipeline().parameters.run_date"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            }
+        ],
+        "parameters": {
+            "region": {
+                "type": "string"
+            },
+            "run_date": {
+                "type": "string"
+            }
+        },
+        "folder": {
+            "name": "RSI/SupplyChain/Children"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}

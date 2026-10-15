@@ -1,0 +1,6 @@
+# target side (Composer DAG rendering + BigQuery parity) -- all a migration agent needs
+apache-airflow==2.10.5
+apache-airflow-providers-google==12.0.0
+requests>=2.31
+PyYAML>=6.0
+ruff==0.6.9

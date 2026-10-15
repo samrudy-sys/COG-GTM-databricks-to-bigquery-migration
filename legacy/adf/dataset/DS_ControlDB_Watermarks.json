@@ -1,0 +1,15 @@
+{
+    "name": "DS_ControlDB_Watermarks",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "LS_AzureSql_ControlDB",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureSqlTable",
+        "typeProperties": {
+            "schema": "ctl",
+            "table": "watermarks"
+        }
+    }
+}

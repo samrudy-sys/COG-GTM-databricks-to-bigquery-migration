@@ -1,0 +1,15 @@
+{
+    "name": "DS_AzureSql_ForecastAccuracy",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "LS_AzureSql_DemandPlanning",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "AzureSqlTable",
+        "typeProperties": {
+            "schema": "dp",
+            "table": "forecast_accuracy"
+        }
+    }
+}

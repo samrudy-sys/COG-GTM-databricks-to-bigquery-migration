@@ -1,0 +1,37 @@
+{
+    "_comment": "Outputs returned by side-effecting ADF activities when the estate is replayed locally by tools/parity.py",
+    "PL_RSI_SalesDaily.LookupWatermark": {
+        "firstRow": {
+            "watermark": "2023-12-31 00:00:00"
+        }
+    },
+    "PL_RSI_Sales_FxConvert.Check_FX_Published": {
+        "exists": true,
+        "lastModified": "2024-04-30T23:10:00Z"
+    },
+    "_bigquery_control_tables": {
+        "ctl.watermarks": {
+            "schema": [
+                [
+                    "pipeline_name",
+                    "STRING"
+                ],
+                [
+                    "last_ingest_ts",
+                    "TIMESTAMP"
+                ],
+                [
+                    "last_run_date",
+                    "DATE"
+                ]
+            ],
+            "rows": [
+                {
+                    "pipeline_name": "PL_RSI_SalesDaily",
+                    "last_ingest_ts": "2023-12-31 00:00:00",
+                    "last_run_date": "2023-12-31"
+                }
+            ]
+        }
+    }
+}

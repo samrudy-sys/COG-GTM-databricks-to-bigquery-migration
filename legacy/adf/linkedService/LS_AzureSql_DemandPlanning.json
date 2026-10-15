@@ -1,0 +1,19 @@
+{
+    "name": "LS_AzureSql_DemandPlanning",
+    "properties": {
+        "description": "Backs the Demand Planning web app (App Service)",
+        "annotations": [],
+        "type": "AzureSqlDatabase",
+        "typeProperties": {
+            "connectionString": "Integrated Security=False;Encrypt=True;Data Source=sql-demandplan-prd.database.windows.net;Initial Catalog=demandplanning",
+            "password": {
+                "type": "AzureKeyVaultSecret",
+                "store": {
+                    "referenceName": "LS_KeyVault_RSI",
+                    "type": "LinkedServiceReference"
+                },
+                "secretName": "demandplanning-password"
+            }
+        }
+    }
+}

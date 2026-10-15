@@ -1,0 +1,11 @@
+{
+    "name": "LS_ADLS_UDL",
+    "properties": {
+        "description": "",
+        "annotations": [],
+        "type": "AzureBlobFS",
+        "typeProperties": {
+            "url": "https://studlprdweu.dfs.core.windows.net/"
+        }
+    }
+}

@@ -1,0 +1,207 @@
+{
+    "name": "PL_RSI_SalesDaily",
+    "properties": {
+        "description": "Daily sell-out: cleanse -> FX -> gold daily aggregate. Feeds Power BI 'RSI Sell-Out'.",
+        "activities": [
+            {
+                "name": "LookupWatermark",
+                "type": "Lookup",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.00:05:00",
+                    "retry": 1
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureSqlSource",
+                        "sqlReaderQuery": "SELECT CONVERT(varchar(19), last_ingest_ts, 120) AS watermark FROM ctl.watermarks WHERE pipeline_name = 'PL_RSI_SalesDaily'",
+                        "queryTimeout": "02:00:00"
+                    },
+                    "dataset": {
+                        "referenceName": "DS_ControlDB_Watermarks",
+                        "type": "DatasetReference"
+                    },
+                    "firstRowOnly": true
+                }
+            },
+            {
+                "name": "Exec_Sales_Cleanse",
+                "type": "ExecutePipeline",
+                "dependsOn": [
+                    {
+                        "activity": "LookupWatermark",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "pipeline": {
+                        "referenceName": "PL_RSI_Sales_Cleanse",
+                        "type": "PipelineReference"
+                    },
+                    "waitOnCompletion": true,
+                    "parameters": {
+                        "run_date": {
+                            "value": "@pipeline().parameters.run_date",
+                            "type": "Expression"
+                        },
+                        "lookback_days": "120",
+                        "watermark": {
+                            "value": "@activity('LookupWatermark').output.firstRow.watermark",
+                            "type": "Expression"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "Exec_Sales_FxConvert",
+                "type": "ExecutePipeline",
+                "dependsOn": [
+                    {
+                        "activity": "Exec_Sales_Cleanse",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "userProperties": [],
+                "typeProperties": {
+                    "pipeline": {
+                        "referenceName": "PL_RSI_Sales_FxConvert",
+                        "type": "PipelineReference"
+                    },
+                    "waitOnCompletion": true,
+                    "parameters": {
+                        "run_date": {
+                            "value": "@pipeline().parameters.run_date",
+                            "type": "Expression"
+                        }
+                    }
+                }
+            },
+            {
+                "name": "NB_Sales_Daily_Agg",
+                "type": "DatabricksNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "Exec_Sales_FxConvert",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.02:00:00",
+                    "retry": 2,
+                    "retryIntervalInSeconds": 300,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Repos/pds-rsi/rsi-pipelines/notebooks/nb_sales_daily_agg",
+                    "baseParameters": {
+                        "run_date": "@pipeline().parameters.run_date"
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_Databricks_RSI",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Update_Watermark",
+                "type": "SqlServerStoredProcedure",
+                "dependsOn": [
+                    {
+                        "activity": "NB_Sales_Daily_Agg",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.00:05:00",
+                    "retry": 2
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "storedProcedureName": "[ctl].[usp_update_watermark]",
+                    "storedProcedureParameters": {
+                        "pipeline_name": {
+                            "value": "PL_RSI_SalesDaily",
+                            "type": "String"
+                        },
+                        "run_date": {
+                            "value": {
+                                "value": "@pipeline().parameters.run_date",
+                                "type": "Expression"
+                            },
+                            "type": "String"
+                        }
+                    }
+                },
+                "linkedServiceName": {
+                    "referenceName": "LS_AzureSql_ControlDB",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Notify_Failure",
+                "type": "WebActivity",
+                "dependsOn": [
+                    {
+                        "activity": "Exec_Sales_Cleanse",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    },
+                    {
+                        "activity": "Exec_Sales_FxConvert",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    },
+                    {
+                        "activity": "NB_Sales_Daily_Agg",
+                        "dependencyConditions": [
+                            "Failed"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.00:10:00",
+                    "retry": 0
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "url": "https://prod-27.westeurope.logic.azure.com:443/workflows/7f3c1e/triggers/manual/paths/invoke",
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body": {
+                        "value": "@concat('{\"pipeline\":\"', pipeline().Pipeline, '\",\"runId\":\"', pipeline().RunId, '\",\"product\":\"pds-rsi\",\"severity\":\"P3\"}')",
+                        "type": "Expression"
+                    }
+                }
+            }
+        ],
+        "parameters": {
+            "run_date": {
+                "type": "string",
+                "defaultValue": "2024-04-30"
+            }
+        },
+        "folder": {
+            "name": "RSI/Sales"
+        },
+        "annotations": [
+            "product:pds-rsi",
+            "owner:rsi-data-eng"
+        ]
+    }
+}
