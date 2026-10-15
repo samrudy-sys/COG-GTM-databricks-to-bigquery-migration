@@ -1,0 +1,70 @@
+{
+ "unit": "execkpipack",
+ "pipeline": "PL_RSI_ExecKPIPack",
+ "dag_id": "pds_rsi_execkpipack",
+ "run_date": "2024-04-30",
+ "passed": true,
+ "target": "http://localhost:9050 (project demo-proj)",
+ "seconds": 3.2,
+ "tasks": [
+  {
+   "task": "gold_exec_kpi_monthly",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 1.37
+  },
+  {
+   "task": "refresh_powerbi_execpack",
+   "operator": "HttpOperator",
+   "status": "not replayed (external side effect)"
+  }
+ ],
+ "tables": [
+  {
+   "table": "pds_rsi.gold_exec_kpi_monthly",
+   "passed": true,
+   "legacy_rows": 24,
+   "bigquery_rows": 24,
+   "columns": 8,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "region": {
+     "legacy": "md5=83296c6bf0 nulls=0",
+     "bigquery": "md5=83296c6bf0 nulls=0"
+    },
+    "month": {
+     "legacy": "md5=96d658e292 nulls=0",
+     "bigquery": "md5=96d658e292 nulls=0"
+    },
+    "net_revenue_eur": {
+     "legacy": "sum=235394.2700 nulls=0",
+     "bigquery": "sum=235394.2700 nulls=0"
+    },
+    "net_units": {
+     "legacy": "sum=32521.0000 nulls=0",
+     "bigquery": "sum=32521.0000 nulls=0"
+    },
+    "otif_pct": {
+     "legacy": "sum=1460.7500 nulls=0",
+     "bigquery": "sum=1460.7500 nulls=0"
+    },
+    "shipments": {
+     "legacy": "sum=6000.0000 nulls=0",
+     "bigquery": "sum=6000.0000 nulls=0"
+    },
+    "media_spend_eur": {
+     "legacy": "sum=27601135.7700 nulls=0",
+     "bigquery": "sum=27601135.7700 nulls=0"
+    },
+    "revenue_to_media_ratio": {
+     "legacy": "sum=0.2110 nulls=0",
+     "bigquery": "sum=0.2110 nulls=0"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}
