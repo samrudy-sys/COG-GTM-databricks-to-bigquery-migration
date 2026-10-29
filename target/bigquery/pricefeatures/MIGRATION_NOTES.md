@@ -28,8 +28,10 @@ Every activity is replayed by the harness (there are no external side effects).
 * Emulator quirks: there is no unary minus, so the macro uses `0 - x`. `SIGN(x) * y / n` truncates to an integer on the emulator, so the macro uses `IF(x < 0, ...)`.
 
 ## Parity (BigQuery emulator, run_date 2024-04-30)
-`make parity UNIT=pricefeatures` **cannot currently pass**. Its staging step fails before any SQL runs:
-`tools/parity.py::stage_inputs` appends `_load_ts` to upstream baseline schemas that already contain `_load_ts`
-("Duplicate column name _load_ts"). This affects every unit with a `pds_rsi.*` upstream. It is reported as a shared change; `tools/` is unchanged.
-With only that staging line patched (out of tree, comparison untouched): `feat_price_elasticity` legacy 8,580 rows,
-BigQuery 8,580 rows, PASS, with 0 value mismatches and 0 rounding-boundary rows.
+`make parity UNIT=pricefeatures` exits 0 (after merging the shared `_load_ts` staging fix from `main`; this unit's SQL/DAG were unchanged):
+
+| table | legacy rows | BigQuery rows | result |
+|---|---|---|---|
+| `pds_rsi.feat_price_elasticity` | 8,580 | 8,580 | PASS (12 columns, 0 issues, 0 rounding-boundary rows) |
+
+Emulator-only validation; not run against a real GCP project.
