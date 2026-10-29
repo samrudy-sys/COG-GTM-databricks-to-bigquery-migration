@@ -1,0 +1,73 @@
+{
+ "unit": "marketshare",
+ "pipeline": "PL_RSI_MarketShare",
+ "dag_id": "pds_rsi_marketshare",
+ "run_date": "2024-04-30",
+ "passed": true,
+ "target": "http://localhost:9050 (project demo-proj)",
+ "seconds": 11.2,
+ "tasks": [
+  {
+   "task": "gold_market_share",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 5.96
+  }
+ ],
+ "tables": [
+  {
+   "table": "pds_rsi.gold_market_share",
+   "passed": true,
+   "legacy_rows": 800,
+   "bigquery_rows": 800,
+   "columns": 10,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "month": {
+     "legacy": "md5=9405f1c4ba nulls=0",
+     "bigquery": "md5=9405f1c4ba nulls=0"
+    },
+    "country": {
+     "legacy": "md5=3a15dd6c71 nulls=0",
+     "bigquery": "md5=3a15dd6c71 nulls=0"
+    },
+    "retailer": {
+     "legacy": "md5=9f6ec18c43 nulls=0",
+     "bigquery": "md5=9f6ec18c43 nulls=0"
+    },
+    "category": {
+     "legacy": "md5=e36e024a54 nulls=0",
+     "bigquery": "md5=e36e024a54 nulls=0"
+    },
+    "brand": {
+     "legacy": "md5=ec62f45317 nulls=0",
+     "bigquery": "md5=ec62f45317 nulls=0"
+    },
+    "brand_revenue_eur": {
+     "legacy": "sum=235394.2700 nulls=0",
+     "bigquery": "sum=235394.2700 nulls=0"
+    },
+    "brand_units": {
+     "legacy": "sum=32521.0000 nulls=0",
+     "bigquery": "sum=32521.0000 nulls=0"
+    },
+    "category_revenue_eur": {
+     "legacy": "sum=235394.2700 nulls=0",
+     "bigquery": "sum=235394.2700 nulls=0"
+    },
+    "value_share_pct": {
+     "legacy": "sum=80000.0000 nulls=0",
+     "bigquery": "sum=80000.0000 nulls=0"
+    },
+    "share_rank": {
+     "legacy": "sum=800.0000 nulls=0",
+     "bigquery": "sum=800.0000 nulls=0"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}
