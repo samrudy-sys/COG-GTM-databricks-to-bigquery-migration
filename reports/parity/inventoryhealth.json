@@ -1,0 +1,116 @@
+{
+ "unit": "inventoryhealth",
+ "pipeline": "PL_RSI_InventoryHealth",
+ "dag_id": "pds_rsi_inventoryhealth",
+ "run_date": "2024-04-30",
+ "passed": false,
+ "target": "http://localhost:9050 (project demo-proj)",
+ "seconds": 6.2,
+ "tasks": [
+  {
+   "task": "gold_inventory_health",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 2.22
+  }
+ ],
+ "tables": [
+  {
+   "table": "pds_rsi.gold_inventory_health",
+   "passed": false,
+   "legacy_rows": 4248,
+   "bigquery_rows": 4248,
+   "columns": 10,
+   "issues": [
+    "value mismatches by column: {'wow_change_units': 154}"
+   ],
+   "samples": [
+    {
+     "legacy": {
+      "wow_change_units": -27
+     },
+     "bigquery": {
+      "wow_change_units": null
+     }
+    },
+    {
+     "legacy": {
+      "wow_change_units": null
+     },
+     "bigquery": {
+      "wow_change_units": 27
+     }
+    },
+    {
+     "legacy": {
+      "wow_change_units": -21
+     },
+     "bigquery": {
+      "wow_change_units": -48
+     }
+    },
+    {
+     "legacy": {
+      "wow_change_units": -31
+     },
+     "bigquery": {
+      "wow_change_units": -30
+     }
+    },
+    {
+     "legacy": {
+      "wow_change_units": 1
+     },
+     "bigquery": {
+      "wow_change_units": 31
+     }
+    }
+   ],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "snapshot_date": {
+     "legacy": "md5=195f63553a nulls=0",
+     "bigquery": "md5=195f63553a nulls=0"
+    },
+    "store_id": {
+     "legacy": "md5=23d34c7e07 nulls=0",
+     "bigquery": "md5=23d34c7e07 nulls=0"
+    },
+    "sku": {
+     "legacy": "md5=d22e2b49d0 nulls=0",
+     "bigquery": "md5=d22e2b49d0 nulls=0"
+    },
+    "on_hand_units": {
+     "legacy": "sum=173782.0000 nulls=0",
+     "bigquery": "sum=173782.0000 nulls=0"
+    },
+    "units_sold_trailing": {
+     "legacy": "sum=3940.0000 nulls=0",
+     "bigquery": "sum=3940.0000 nulls=0"
+    },
+    "avg_daily_units": {
+     "legacy": "sum=140.7000 nulls=0",
+     "bigquery": "sum=140.7000 nulls=0"
+    },
+    "days_of_cover": {
+     "legacy": "sum=797332.0000 nulls=2932",
+     "bigquery": "sum=797332.0000 nulls=2932"
+    },
+    "is_stockout": {
+     "legacy": "md5=e0efddb6f5 nulls=0",
+     "bigquery": "md5=e0efddb6f5 nulls=0"
+    },
+    "wow_change_units": {
+     "legacy": "sum=185.0000 nulls=242",
+     "bigquery": "sum=404.0000 nulls=242"
+    },
+    "risk_band": {
+     "legacy": "md5=357e6398e2 nulls=0",
+     "bigquery": "md5=357e6398e2 nulls=0"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}
