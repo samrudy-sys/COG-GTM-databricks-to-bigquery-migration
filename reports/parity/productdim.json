@@ -1,0 +1,97 @@
+{
+ "unit": "productdim",
+ "pipeline": "PL_RSI_ProductDim",
+ "dag_id": "pds_rsi_productdim",
+ "run_date": "2024-04-30",
+ "passed": true,
+ "target": "http://localhost:9050 (project demo-proj)",
+ "seconds": 1.8,
+ "tasks": [
+  {
+   "task": "dim_product",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 0.36
+  }
+ ],
+ "tables": [
+  {
+   "table": "pds_rsi.dim_product",
+   "passed": true,
+   "legacy_rows": 120,
+   "bigquery_rows": 120,
+   "columns": 16,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "sku": {
+     "legacy": "md5=5e87fff247 nulls=0",
+     "bigquery": "md5=5e87fff247 nulls=0"
+    },
+    "product_name": {
+     "legacy": "md5=b4dd6aca9d nulls=0",
+     "bigquery": "md5=b4dd6aca9d nulls=0"
+    },
+    "brand": {
+     "legacy": "md5=181b6ab004 nulls=0",
+     "bigquery": "md5=181b6ab004 nulls=0"
+    },
+    "category": {
+     "legacy": "md5=29fad254ea nulls=0",
+     "bigquery": "md5=29fad254ea nulls=0"
+    },
+    "subcategory": {
+     "legacy": "md5=abce5cc08b nulls=0",
+     "bigquery": "md5=abce5cc08b nulls=0"
+    },
+    "brand_category_key": {
+     "legacy": "md5=ff57b41138 nulls=0",
+     "bigquery": "md5=ff57b41138 nulls=0"
+    },
+    "pack_size_ml": {
+     "legacy": "sum=70200.0000 nulls=0",
+     "bigquery": "sum=70200.0000 nulls=0"
+    },
+    "pack_size_band": {
+     "legacy": "md5=481ade63b2 nulls=0",
+     "bigquery": "md5=481ade63b2 nulls=0"
+    },
+    "launch_date": {
+     "legacy": "md5=194967aae8 nulls=0",
+     "bigquery": "md5=194967aae8 nulls=0"
+    },
+    "years_on_market": {
+     "legacy": "sum=310.0000 nulls=0",
+     "bigquery": "sum=310.0000 nulls=0"
+    },
+    "is_active": {
+     "legacy": "md5=a3e295d863 nulls=0",
+     "bigquery": "md5=a3e295d863 nulls=0"
+    },
+    "plastic_g": {
+     "legacy": "sum=4124.1000 nulls=0",
+     "bigquery": "sum=4124.1000 nulls=0"
+    },
+    "recycled_content_pct": {
+     "legacy": "sum=59.0010 nulls=0",
+     "bigquery": "sum=59.0010 nulls=0"
+    },
+    "carbon_g_co2e": {
+     "legacy": "sum=53310.3000 nulls=0",
+     "bigquery": "sum=53310.3000 nulls=0"
+    },
+    "sustainability_score": {
+     "legacy": "sum=8622.4000 nulls=0",
+     "bigquery": "sum=8622.4000 nulls=0"
+    },
+    "esg_grade": {
+     "legacy": "md5=6f3500b134 nulls=0",
+     "bigquery": "md5=6f3500b134 nulls=0"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}
