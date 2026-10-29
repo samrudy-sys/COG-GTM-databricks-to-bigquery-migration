@@ -19,7 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from mig.bq import BQ, BQ_TYPES  # noqa: E402
 from mig.compare import compare_table  # noqa: E402
-from mig.paths import ADF, DAGS, DEFAULT_RUN_DATE, REPORTS, ROOT, WORK  # noqa: E402
+from mig.paths import ADF, AUDIT_COLUMNS, DAGS, DEFAULT_RUN_DATE, REPORTS, ROOT, WORK  # noqa: E402
 from mig.seeds import seed_rows, table_schemas  # noqa: E402
 
 BASELINE_DIR = ROOT / "migration" / "baseline"
@@ -118,7 +118,9 @@ def render_bq_tasks(dag, run_date):
 
 
 def bq_schema_from_spark(schema):
-    return [(c, SPARK_TO_BQ.get(t, "FLOAT" if t.startswith("decimal") else "STRING")) for c, t in schema.items()]
+    """Baseline schemas include the audit columns; callers append `_load_ts` themselves."""
+    return [(c, SPARK_TO_BQ.get(t, "FLOAT" if t.startswith("decimal") else "STRING"))
+            for c, t in schema.items() if c not in AUDIT_COLUMNS]
 
 
 def stage_inputs(bq, unit, inv, log, upstream_from_baseline=True):
