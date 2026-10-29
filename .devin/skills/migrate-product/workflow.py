@@ -1,6 +1,10 @@
 """Dynamic workflow: migrate a whole data product (all ADF parent pipelines) to BigQuery + Composer.
 
 discover (deterministic) -> migrate (1 Devin per unit, in parallel) -> integrate (1 Devin, barrier)
+
+Re-runnable: units whose `migrate/<unit>` branch already has a passing parity report are carried into integration
+as-is; units whose branch exists but failed parity get a "resume" prompt that continues the existing branch/PR
+(e.g. after a shared harness fix lands on the base branch).
 """
 import asyncio
 import json
@@ -8,7 +12,7 @@ import os
 import subprocess
 from pathlib import Path
 
-REPO = os.environ.get("MIGRATION_REPO", "COG-GTM/databricks-to-bigquery-migration")
+REPO = os.environ.get("MIGRATION_REPO", "samrudy-sys/COG-GTM-databricks-to-bigquery-migration")
 LOCAL = Path(os.environ.get("MIGRATION_REPO_DIR", str(Path.home() / "repos" / "databricks-to-bigquery-migration")))
 BASE = os.environ.get("MIGRATION_BASE_BRANCH", "main")
 
@@ -21,6 +25,29 @@ def load_inventory():
     tree = subprocess.run(["git", "-C", str(LOCAL), "ls-tree", "-r", "--name-only", f"origin/{BASE}", "target/composer/dags"],
                           check=True, capture_output=True, text=True).stdout.split()
     return json.loads(raw), {Path(p).stem.removeprefix("pds_rsi_") for p in tree}
+
+
+def existing_unit_branches(units):
+    """{unit_id: parity_passed} for units that already have a pushed `migrate/<unit>` branch."""
+    subprocess.run(["git", "-C", str(LOCAL), "fetch", "-q", "--prune", "origin"], check=True)
+    out = {}
+    for u in units:
+        ref = f"origin/migrate/{u['id']}"
+        if subprocess.run(["git", "-C", str(LOCAL), "rev-parse", "-q", "--verify", ref], capture_output=True).returncode:
+            continue
+        rep = subprocess.run(["git", "-C", str(LOCAL), "show", f"{ref}:reports/parity/{u['id']}.json"],
+                             capture_output=True, text=True)
+        try:
+            out[u["id"]] = bool(json.loads(rep.stdout)["passed"]) if rep.returncode == 0 else False
+        except (ValueError, KeyError):
+            out[u["id"]] = False
+    return out
+
+
+def open_pr_url(unit_id):
+    r = subprocess.run(["gh", "pr", "list", "-R", REPO, "--head", f"migrate/{unit_id}", "--json", "url", "-q", ".[0].url"],
+                       capture_output=True, text=True)
+    return r.stdout.strip() if r.returncode == 0 else ""
 
 
 MIGRATE_SCHEMA = {
@@ -61,6 +88,18 @@ INTEGRATE_SCHEMA = {
 }
 
 
+RESUME = set()
+
+
+def resume_step(unit):
+    if unit["id"] in RESUME:
+        return (f"Branch `migrate/{unit['id']}` and its PR already exist from a previous run that did NOT reach parity. Check it out,"
+                f" merge the latest `origin/{BASE}` into it (shared harness fixes may have landed there), read the PR"
+                f" description and `target/bigquery/{unit['id']}/MIGRATION_NOTES.md` for what was tried, and continue from there."
+                " Push to the same branch and update the existing PR instead of opening a new one.")
+    return f"Create branch `migrate/{unit['id']}` from `{BASE}`."
+
+
 def migrate_prompt(unit, findings):
     return f"""You are migrating one unit of the pds-rsi data product from Azure Data Factory + Databricks to BigQuery + Cloud Composer.
 
@@ -72,7 +111,7 @@ Findings for this unit:
 {json.dumps(findings, indent=1, sort_keys=True)}
 
 Instructions:
-1. Clone the repo. Create branch `migrate/{unit['id']}` from `{BASE}`.
+1. Clone the repo. {resume_step(unit)}
 2. Follow `.devin/skills/migrate-pipeline/SKILL.md` exactly. It is the codified playbook from the reference migration
    (`target/bigquery/salesdaily/` + `target/composer/dags/pds_rsi_salesdaily.py`). Mirror those conventions.
 3. Only create or modify files under `target/bigquery/{unit['id']}/`, `target/composer/dags/pds_rsi_{unit['id']}.py` and
@@ -118,7 +157,12 @@ Instructions:
 
 async def main():
     inv, done = load_inventory()  # deterministic discovery: the fan-out list comes from the committed inventory
-    todo = [u for u in inv["units"] if u["id"] not in done]
+    branches = existing_unit_branches([u for u in inv["units"] if u["id"] not in done])
+    carried = [{"unit": uid, "parity_passed": True, "branch": f"migrate/{uid}", "pr_url": open_pr_url(uid),
+                "summary": "carried over from a previous run (passing parity report on its branch)"}
+               for uid, ok in sorted(branches.items()) if ok]
+    RESUME.update(uid for uid, ok in branches.items() if not ok)
+    todo = [u for u in inv["units"] if u["id"] not in done and not branches.get(u["id"])]
     await register_workflow({
         "name": "migrate-product",
         "description": f"Migrate {inv['product']}: {len(todo)} ADF parent pipelines in parallel, then integrate + sign-off",
@@ -131,6 +175,7 @@ async def main():
         ],
     })
     log(f"inventory: {len(inv['units'])} units, {len(inv['waves'])} waves; already migrated: {sorted(done & {u['id'] for u in inv['units']})}")
+    log(f"carried over (passing branch): {[c['unit'] for c in carried]}; resuming failed branches: {sorted(RESUME)}")
 
     async def migrate(unit):
         findings = [f for f in inv["findings"] if f["unit"] == unit["id"]]
@@ -142,7 +187,7 @@ async def main():
         log(f"{unit['id']}: parity={'PASS' if r['parity_passed'] else 'FAIL'} {r.get('pr_url', '')}")
         return r
 
-    results = await parallel([lambda u=u: migrate(u) for u in todo])
+    results = carried + list(await parallel([lambda u=u: migrate(u) for u in todo]))
     passed = [r for r in results if r.get("parity_passed")]
     log(f"migrate: {len(passed)}/{len(results)} units at parity")
     if not passed:
