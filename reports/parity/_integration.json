@@ -1,0 +1,917 @@
+{
+ "run_date": "2024-04-30",
+ "passed": false,
+ "seconds": 323.4,
+ "waves": [
+  [
+   "otif",
+   "productdim",
+   "ratingspulse",
+   "salesdaily",
+   "storedimscd2"
+  ],
+  [
+   "forecastaccuracy",
+   "inventoryhealth",
+   "marketshare",
+   "mediaroi",
+   "pricefeatures",
+   "promoeffectiveness"
+  ],
+  [
+   "execkpipack"
+  ]
+ ],
+ "missing_units": [
+  "inventoryhealth"
+ ],
+ "units": [
+  {
+   "unit": "otif",
+   "passed": true,
+   "seconds": 11.1
+  },
+  {
+   "unit": "productdim",
+   "passed": true,
+   "seconds": 1.1
+  },
+  {
+   "unit": "ratingspulse",
+   "passed": true,
+   "seconds": 25.4
+  },
+  {
+   "unit": "salesdaily",
+   "passed": true,
+   "seconds": 95.6
+  },
+  {
+   "unit": "storedimscd2",
+   "passed": true,
+   "seconds": 3.3
+  },
+  {
+   "unit": "forecastaccuracy",
+   "passed": true,
+   "seconds": 94.5
+  },
+  {
+   "unit": "marketshare",
+   "passed": true,
+   "seconds": 8.0
+  },
+  {
+   "unit": "mediaroi",
+   "passed": true,
+   "seconds": 10.4
+  },
+  {
+   "unit": "pricefeatures",
+   "passed": true,
+   "seconds": 47.3
+  },
+  {
+   "unit": "promoeffectiveness",
+   "passed": true,
+   "seconds": 13.6
+  },
+  {
+   "unit": "execkpipack",
+   "passed": true,
+   "seconds": 2.5
+  }
+ ],
+ "tables_at_parity": 14,
+ "tables_total": 15,
+ "tables": [
+  {
+   "table": "pds_rsi.gold_otif",
+   "passed": true,
+   "legacy_rows": 880,
+   "bigquery_rows": 880,
+   "columns": 9,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "region": {
+     "legacy": "md5=74559d75ee nulls=0",
+     "bigquery": "md5=74559d75ee nulls=0"
+    },
+    "dc_id": {
+     "legacy": "md5=bb60b3fbe6 nulls=0",
+     "bigquery": "md5=bb60b3fbe6 nulls=0"
+    },
+    "retailer": {
+     "legacy": "md5=9d3098c11c nulls=0",
+     "bigquery": "md5=9d3098c11c nulls=0"
+    },
+    "month": {
+     "legacy": "md5=581fd0df16 nulls=0",
+     "bigquery": "md5=581fd0df16 nulls=0"
+    },
+    "shipments": {
+     "legacy": "sum=6000.0000 nulls=0",
+     "bigquery": "sum=6000.0000 nulls=0"
+    },
+    "otif_pct": {
+     "legacy": "sum=53495.0100 nulls=0",
+     "bigquery": "sum=53495.0100 nulls=0"
+    },
+    "on_time_pct": {
+     "legacy": "sum=61182.3500 nulls=0",
+     "bigquery": "sum=61182.3500 nulls=0"
+    },
+    "fill_rate": {
+     "legacy": "sum=852.0795 nulls=0",
+     "bigquery": "sum=852.0795 nulls=0"
+    },
+    "undelivered": {
+     "legacy": "sum=127.0000 nulls=0",
+     "bigquery": "sum=127.0000 nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.dim_product",
+   "passed": true,
+   "legacy_rows": 120,
+   "bigquery_rows": 120,
+   "columns": 16,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "sku": {
+     "legacy": "md5=5e87fff247 nulls=0",
+     "bigquery": "md5=5e87fff247 nulls=0"
+    },
+    "product_name": {
+     "legacy": "md5=b4dd6aca9d nulls=0",
+     "bigquery": "md5=b4dd6aca9d nulls=0"
+    },
+    "brand": {
+     "legacy": "md5=181b6ab004 nulls=0",
+     "bigquery": "md5=181b6ab004 nulls=0"
+    },
+    "category": {
+     "legacy": "md5=29fad254ea nulls=0",
+     "bigquery": "md5=29fad254ea nulls=0"
+    },
+    "subcategory": {
+     "legacy": "md5=abce5cc08b nulls=0",
+     "bigquery": "md5=abce5cc08b nulls=0"
+    },
+    "brand_category_key": {
+     "legacy": "md5=ff57b41138 nulls=0",
+     "bigquery": "md5=ff57b41138 nulls=0"
+    },
+    "pack_size_ml": {
+     "legacy": "sum=70200.0000 nulls=0",
+     "bigquery": "sum=70200.0000 nulls=0"
+    },
+    "pack_size_band": {
+     "legacy": "md5=481ade63b2 nulls=0",
+     "bigquery": "md5=481ade63b2 nulls=0"
+    },
+    "launch_date": {
+     "legacy": "md5=194967aae8 nulls=0",
+     "bigquery": "md5=194967aae8 nulls=0"
+    },
+    "years_on_market": {
+     "legacy": "sum=310.0000 nulls=0",
+     "bigquery": "sum=310.0000 nulls=0"
+    },
+    "is_active": {
+     "legacy": "md5=a3e295d863 nulls=0",
+     "bigquery": "md5=a3e295d863 nulls=0"
+    },
+    "plastic_g": {
+     "legacy": "sum=4124.1000 nulls=0",
+     "bigquery": "sum=4124.1000 nulls=0"
+    },
+    "recycled_content_pct": {
+     "legacy": "sum=59.0010 nulls=0",
+     "bigquery": "sum=59.0010 nulls=0"
+    },
+    "carbon_g_co2e": {
+     "legacy": "sum=53310.3000 nulls=0",
+     "bigquery": "sum=53310.3000 nulls=0"
+    },
+    "sustainability_score": {
+     "legacy": "sum=8622.4000 nulls=0",
+     "bigquery": "sum=8622.4000 nulls=0"
+    },
+    "esg_grade": {
+     "legacy": "md5=6f3500b134 nulls=0",
+     "bigquery": "md5=6f3500b134 nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.gold_ratings_pulse",
+   "passed": true,
+   "legacy_rows": 2713,
+   "bigquery_rows": 2713,
+   "columns": 6,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "sku": {
+     "legacy": "md5=f88f1b3d3f nulls=0",
+     "bigquery": "md5=f88f1b3d3f nulls=0"
+    },
+    "review_date": {
+     "legacy": "md5=544ae8961d nulls=0",
+     "bigquery": "md5=544ae8961d nulls=0"
+    },
+    "reviews_30d": {
+     "legacy": "sum=17007.0000 nulls=0",
+     "bigquery": "sum=17007.0000 nulls=0"
+    },
+    "avg_rating_30d": {
+     "legacy": "sum=10805.4420 nulls=0",
+     "bigquery": "sum=10805.4420 nulls=0"
+    },
+    "nps_30d": {
+     "legacy": "sum=38314.0000 nulls=0",
+     "bigquery": "sum=38314.0000 nulls=0"
+    },
+    "low_confidence": {
+     "legacy": "md5=a836dae840 nulls=0",
+     "bigquery": "md5=a836dae840 nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.gold_sales_daily",
+   "passed": true,
+   "legacy_rows": 13785,
+   "bigquery_rows": 13785,
+   "columns": 10,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "txn_date": {
+     "legacy": "md5=f11046bc11 nulls=0",
+     "bigquery": "md5=f11046bc11 nulls=0"
+    },
+    "store_id": {
+     "legacy": "md5=6b142e336d nulls=0",
+     "bigquery": "md5=6b142e336d nulls=0"
+    },
+    "country": {
+     "legacy": "md5=887b00784b nulls=0",
+     "bigquery": "md5=887b00784b nulls=0"
+    },
+    "sku": {
+     "legacy": "md5=5149c421c7 nulls=0",
+     "bigquery": "md5=5149c421c7 nulls=0"
+    },
+    "net_units": {
+     "legacy": "sum=32521.0000 nulls=0",
+     "bigquery": "sum=32521.0000 nulls=0"
+    },
+    "return_units": {
+     "legacy": "sum=963.0000 nulls=0",
+     "bigquery": "sum=963.0000 nulls=0"
+    },
+    "txn_count": {
+     "legacy": "sum=13889.0000 nulls=0",
+     "bigquery": "sum=13889.0000 nulls=0"
+    },
+    "net_revenue_eur": {
+     "legacy": "sum=235394.2700 nulls=0",
+     "bigquery": "sum=235394.2700 nulls=0"
+    },
+    "gross_revenue_eur": {
+     "legacy": "sum=250913.6200 nulls=0",
+     "bigquery": "sum=250913.6200 nulls=0"
+    },
+    "avg_selling_price_eur": {
+     "legacy": "sum=100079.5224 nulls=2",
+     "bigquery": "sum=100079.5224 nulls=2"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.silver_sales",
+   "passed": true,
+   "legacy_rows": 13889,
+   "bigquery_rows": 13889,
+   "columns": 14,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "txn_id": {
+     "legacy": "md5=c9a226d8e2 nulls=0",
+     "bigquery": "md5=c9a226d8e2 nulls=0"
+    },
+    "txn_date": {
+     "legacy": "md5=59c98f08d5 nulls=0",
+     "bigquery": "md5=59c98f08d5 nulls=0"
+    },
+    "txn_ts": {
+     "legacy": "md5=3b5008d2ea nulls=0",
+     "bigquery": "md5=3b5008d2ea nulls=0"
+    },
+    "store_id": {
+     "legacy": "md5=a40a599e89 nulls=0",
+     "bigquery": "md5=a40a599e89 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=5ae06b6979 nulls=0",
+     "bigquery": "md5=5ae06b6979 nulls=0"
+    },
+    "sku": {
+     "legacy": "md5=7a6dedbea3 nulls=0",
+     "bigquery": "md5=7a6dedbea3 nulls=0"
+    },
+    "qty": {
+     "legacy": "sum=32521.0000 nulls=0",
+     "bigquery": "sum=32521.0000 nulls=0"
+    },
+    "is_return": {
+     "legacy": "md5=4182af8667 nulls=0",
+     "bigquery": "md5=4182af8667 nulls=0"
+    },
+    "unit_price": {
+     "legacy": "sum=1250846.1300 nulls=0",
+     "bigquery": "sum=1250846.1300 nulls=0"
+    },
+    "gross_amount": {
+     "legacy": "sum=2872366.8500 nulls=0",
+     "bigquery": "sum=2872366.8500 nulls=0"
+    },
+    "discount_amt": {
+     "legacy": "sum=167456.0400 nulls=0",
+     "bigquery": "sum=167456.0400 nulls=0"
+    },
+    "net_amount": {
+     "legacy": "sum=2704910.8100 nulls=0",
+     "bigquery": "sum=2704910.8100 nulls=0"
+    },
+    "currency": {
+     "legacy": "md5=70a434a124 nulls=0",
+     "bigquery": "md5=70a434a124 nulls=0"
+    },
+    "channel": {
+     "legacy": "md5=61de063bae nulls=0",
+     "bigquery": "md5=61de063bae nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.silver_sales_eur",
+   "passed": true,
+   "legacy_rows": 13889,
+   "bigquery_rows": 13889,
+   "columns": 18,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "txn_id": {
+     "legacy": "md5=c9a226d8e2 nulls=0",
+     "bigquery": "md5=c9a226d8e2 nulls=0"
+    },
+    "txn_date": {
+     "legacy": "md5=59c98f08d5 nulls=0",
+     "bigquery": "md5=59c98f08d5 nulls=0"
+    },
+    "txn_ts": {
+     "legacy": "md5=3b5008d2ea nulls=0",
+     "bigquery": "md5=3b5008d2ea nulls=0"
+    },
+    "store_id": {
+     "legacy": "md5=a40a599e89 nulls=0",
+     "bigquery": "md5=a40a599e89 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=5ae06b6979 nulls=0",
+     "bigquery": "md5=5ae06b6979 nulls=0"
+    },
+    "sku": {
+     "legacy": "md5=7a6dedbea3 nulls=0",
+     "bigquery": "md5=7a6dedbea3 nulls=0"
+    },
+    "qty": {
+     "legacy": "sum=32521.0000 nulls=0",
+     "bigquery": "sum=32521.0000 nulls=0"
+    },
+    "is_return": {
+     "legacy": "md5=4182af8667 nulls=0",
+     "bigquery": "md5=4182af8667 nulls=0"
+    },
+    "unit_price": {
+     "legacy": "sum=1250846.1300 nulls=0",
+     "bigquery": "sum=1250846.1300 nulls=0"
+    },
+    "gross_amount": {
+     "legacy": "sum=2872366.8500 nulls=0",
+     "bigquery": "sum=2872366.8500 nulls=0"
+    },
+    "discount_amt": {
+     "legacy": "sum=167456.0400 nulls=0",
+     "bigquery": "sum=167456.0400 nulls=0"
+    },
+    "net_amount": {
+     "legacy": "sum=2704910.8100 nulls=0",
+     "bigquery": "sum=2704910.8100 nulls=0"
+    },
+    "currency": {
+     "legacy": "md5=70a434a124 nulls=0",
+     "bigquery": "md5=70a434a124 nulls=0"
+    },
+    "channel": {
+     "legacy": "md5=61de063bae nulls=0",
+     "bigquery": "md5=61de063bae nulls=0"
+    },
+    "fx_rate_to_eur": {
+     "legacy": "sum=11474.8962 nulls=0",
+     "bigquery": "sum=11474.8962 nulls=0"
+    },
+    "fx_rate_date": {
+     "legacy": "md5=b59e04c23f nulls=0",
+     "bigquery": "md5=b59e04c23f nulls=0"
+    },
+    "gross_amount_eur": {
+     "legacy": "sum=250912.8413 nulls=0",
+     "bigquery": "sum=250912.8413 nulls=0"
+    },
+    "net_amount_eur": {
+     "legacy": "sum=235393.8122 nulls=0",
+     "bigquery": "sum=235393.8122 nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.dim_store",
+   "passed": true,
+   "legacy_rows": 77,
+   "bigquery_rows": 77,
+   "columns": 10,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "store_sk": {
+     "legacy": "md5=e92a439f1e nulls=0",
+     "bigquery": "md5=e92a439f1e nulls=0"
+    },
+    "store_id": {
+     "legacy": "md5=a5a2d239ca nulls=0",
+     "bigquery": "md5=a5a2d239ca nulls=0"
+    },
+    "retailer": {
+     "legacy": "md5=c695ca54d3 nulls=0",
+     "bigquery": "md5=c695ca54d3 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=c423b90724 nulls=0",
+     "bigquery": "md5=c423b90724 nulls=0"
+    },
+    "region": {
+     "legacy": "md5=95c7955900 nulls=0",
+     "bigquery": "md5=95c7955900 nulls=0"
+    },
+    "store_format": {
+     "legacy": "md5=d9f2510480 nulls=0",
+     "bigquery": "md5=d9f2510480 nulls=0"
+    },
+    "open_date": {
+     "legacy": "md5=b4c717ca05 nulls=0",
+     "bigquery": "md5=b4c717ca05 nulls=0"
+    },
+    "valid_from": {
+     "legacy": "md5=3cc4c0a69f nulls=0",
+     "bigquery": "md5=3cc4c0a69f nulls=0"
+    },
+    "valid_to": {
+     "legacy": "md5=1c2a5bba7e nulls=0",
+     "bigquery": "md5=1c2a5bba7e nulls=0"
+    },
+    "is_current": {
+     "legacy": "md5=a64b82bd6b nulls=0",
+     "bigquery": "md5=a64b82bd6b nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.gold_forecast_accuracy",
+   "passed": true,
+   "legacy_rows": 790,
+   "bigquery_rows": 790,
+   "columns": 8,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "sku": {
+     "legacy": "md5=70fea06651 nulls=0",
+     "bigquery": "md5=70fea06651 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=ea5f91ecec nulls=0",
+     "bigquery": "md5=ea5f91ecec nulls=0"
+    },
+    "weeks": {
+     "legacy": "sum=2040.0000 nulls=0",
+     "bigquery": "sum=2040.0000 nulls=0"
+    },
+    "forecast_units": {
+     "legacy": "sum=12269.7400 nulls=0",
+     "bigquery": "sum=12269.7400 nulls=0"
+    },
+    "actual_units": {
+     "legacy": "sum=4484.0000 nulls=0",
+     "bigquery": "sum=4484.0000 nulls=0"
+    },
+    "mape_pct": {
+     "legacy": "sum=116627.2500 nulls=140",
+     "bigquery": "sum=116627.2500 nulls=140"
+    },
+    "bias_pct": {
+     "legacy": "sum=162871.4700 nulls=142",
+     "bigquery": "sum=162871.4700 nulls=142"
+    },
+    "accuracy_pct": {
+     "legacy": "sum=-119620.7600 nulls=142",
+     "bigquery": "sum=-119620.7600 nulls=142"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.gold_market_share",
+   "passed": true,
+   "legacy_rows": 800,
+   "bigquery_rows": 800,
+   "columns": 10,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "month": {
+     "legacy": "md5=9405f1c4ba nulls=0",
+     "bigquery": "md5=9405f1c4ba nulls=0"
+    },
+    "country": {
+     "legacy": "md5=3a15dd6c71 nulls=0",
+     "bigquery": "md5=3a15dd6c71 nulls=0"
+    },
+    "retailer": {
+     "legacy": "md5=9f6ec18c43 nulls=0",
+     "bigquery": "md5=9f6ec18c43 nulls=0"
+    },
+    "category": {
+     "legacy": "md5=e36e024a54 nulls=0",
+     "bigquery": "md5=e36e024a54 nulls=0"
+    },
+    "brand": {
+     "legacy": "md5=ec62f45317 nulls=0",
+     "bigquery": "md5=ec62f45317 nulls=0"
+    },
+    "brand_revenue_eur": {
+     "legacy": "sum=235394.2700 nulls=0",
+     "bigquery": "sum=235394.2700 nulls=0"
+    },
+    "brand_units": {
+     "legacy": "sum=32521.0000 nulls=0",
+     "bigquery": "sum=32521.0000 nulls=0"
+    },
+    "category_revenue_eur": {
+     "legacy": "sum=235394.2700 nulls=0",
+     "bigquery": "sum=235394.2700 nulls=0"
+    },
+    "value_share_pct": {
+     "legacy": "sum=80000.0000 nulls=0",
+     "bigquery": "sum=80000.0000 nulls=0"
+    },
+    "share_rank": {
+     "legacy": "sum=800.0000 nulls=0",
+     "bigquery": "sum=800.0000 nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.gold_media_roi",
+   "passed": true,
+   "legacy_rows": 624,
+   "bigquery_rows": 624,
+   "columns": 13,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "week_start": {
+     "legacy": "md5=7a0ae588bb nulls=0",
+     "bigquery": "md5=7a0ae588bb nulls=0"
+    },
+    "brand": {
+     "legacy": "md5=3390849406 nulls=0",
+     "bigquery": "md5=3390849406 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=5ff40b5a22 nulls=0",
+     "bigquery": "md5=5ff40b5a22 nulls=0"
+    },
+    "total_spend_eur": {
+     "legacy": "sum=27601135.7700 nulls=0",
+     "bigquery": "sum=27601135.7700 nulls=0"
+    },
+    "spend_tv_eur": {
+     "legacy": "sum=6980247.5000 nulls=0",
+     "bigquery": "sum=6980247.5000 nulls=0"
+    },
+    "spend_search_eur": {
+     "legacy": "sum=6974595.5300 nulls=0",
+     "bigquery": "sum=6974595.5300 nulls=0"
+    },
+    "spend_social_eur": {
+     "legacy": "sum=6832769.2800 nulls=0",
+     "bigquery": "sum=6832769.2800 nulls=0"
+    },
+    "spend_retail_media_eur": {
+     "legacy": "sum=6813523.4600 nulls=0",
+     "bigquery": "sum=6813523.4600 nulls=0"
+    },
+    "impressions": {
+     "legacy": "sum=6592738607.0000 nulls=0",
+     "bigquery": "sum=6592738607.0000 nulls=0"
+    },
+    "net_revenue_eur": {
+     "legacy": "sum=235138.5300 nulls=0",
+     "bigquery": "sum=235138.5300 nulls=0"
+    },
+    "net_units": {
+     "legacy": "sum=32489.0000 nulls=0",
+     "bigquery": "sum=32489.0000 nulls=0"
+    },
+    "revenue_per_eur_spent": {
+     "legacy": "sum=6.4870 nulls=0",
+     "bigquery": "sum=6.4870 nulls=0"
+    },
+    "cpm_eur": {
+     "legacy": "sum=2721.9284 nulls=0",
+     "bigquery": "sum=2721.9284 nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.silver_media_weekly",
+   "passed": true,
+   "legacy_rows": 624,
+   "bigquery_rows": 624,
+   "columns": 9,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "week_start": {
+     "legacy": "md5=7a0ae588bb nulls=0",
+     "bigquery": "md5=7a0ae588bb nulls=0"
+    },
+    "brand": {
+     "legacy": "md5=3390849406 nulls=0",
+     "bigquery": "md5=3390849406 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=5ff40b5a22 nulls=0",
+     "bigquery": "md5=5ff40b5a22 nulls=0"
+    },
+    "spend_tv_eur": {
+     "legacy": "sum=6980247.5000 nulls=0",
+     "bigquery": "sum=6980247.5000 nulls=0"
+    },
+    "spend_search_eur": {
+     "legacy": "sum=6974595.5300 nulls=0",
+     "bigquery": "sum=6974595.5300 nulls=0"
+    },
+    "spend_social_eur": {
+     "legacy": "sum=6832769.2800 nulls=0",
+     "bigquery": "sum=6832769.2800 nulls=0"
+    },
+    "spend_retail_media_eur": {
+     "legacy": "sum=6813523.4600 nulls=0",
+     "bigquery": "sum=6813523.4600 nulls=0"
+    },
+    "total_spend_eur": {
+     "legacy": "sum=27601135.7700 nulls=0",
+     "bigquery": "sum=27601135.7700 nulls=0"
+    },
+    "impressions": {
+     "legacy": "sum=6592738607.0000 nulls=0",
+     "bigquery": "sum=6592738607.0000 nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.feat_price_elasticity",
+   "passed": true,
+   "legacy_rows": 8580,
+   "bigquery_rows": 8580,
+   "columns": 12,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "week_start": {
+     "legacy": "md5=a113fe753c nulls=0",
+     "bigquery": "md5=a113fe753c nulls=0"
+    },
+    "sku": {
+     "legacy": "md5=4be71b32d5 nulls=0",
+     "bigquery": "md5=4be71b32d5 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=8ce4075b59 nulls=0",
+     "bigquery": "md5=8ce4075b59 nulls=0"
+    },
+    "units": {
+     "legacy": "sum=33484.0000 nulls=0",
+     "bigquery": "sum=33484.0000 nulls=0"
+    },
+    "net_revenue_eur": {
+     "legacy": "sum=242926.2300 nulls=0",
+     "bigquery": "sum=242926.2300 nulls=0"
+    },
+    "avg_price_eur": {
+     "legacy": "sum=62560.2961 nulls=0",
+     "bigquery": "sum=62560.2961 nulls=0"
+    },
+    "log_units": {
+     "legacy": "sum=12296.1622 nulls=0",
+     "bigquery": "sum=12296.1622 nulls=0"
+    },
+    "log_price": {
+     "legacy": "sum=15768.6028 nulls=0",
+     "bigquery": "sum=15768.6028 nulls=0"
+    },
+    "on_promo": {
+     "legacy": "md5=7b608b6db7 nulls=0",
+     "bigquery": "md5=7b608b6db7 nulls=0"
+    },
+    "price_lag_1w": {
+     "legacy": "sum=56450.1022 nulls=840",
+     "bigquery": "sum=56450.1022 nulls=840"
+    },
+    "price_change_pct": {
+     "legacy": "sum=6127.9960 nulls=840",
+     "bigquery": "sum=6127.9960 nulls=840"
+    },
+    "units_ma_4w": {
+     "legacy": "sum=33466.1700 nulls=0",
+     "bigquery": "sum=33466.1700 nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.gold_promo_uplift",
+   "passed": true,
+   "legacy_rows": 80,
+   "bigquery_rows": 80,
+   "columns": 15,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "promo_id": {
+     "legacy": "md5=4e1719bdb2 nulls=0",
+     "bigquery": "md5=4e1719bdb2 nulls=0"
+    },
+    "sku": {
+     "legacy": "md5=40c4ffe26f nulls=0",
+     "bigquery": "md5=40c4ffe26f nulls=0"
+    },
+    "retailer": {
+     "legacy": "md5=2121e0acd5 nulls=0",
+     "bigquery": "md5=2121e0acd5 nulls=0"
+    },
+    "promo_type": {
+     "legacy": "md5=39d1cb1a26 nulls=0",
+     "bigquery": "md5=39d1cb1a26 nulls=0"
+    },
+    "discount_pct": {
+     "legacy": "sum=16.2200 nulls=0",
+     "bigquery": "sum=16.2200 nulls=0"
+    },
+    "start_date": {
+     "legacy": "md5=e84dcb2c66 nulls=0",
+     "bigquery": "md5=e84dcb2c66 nulls=0"
+    },
+    "end_date": {
+     "legacy": "md5=ea8d6d2e02 nulls=0",
+     "bigquery": "md5=ea8d6d2e02 nulls=0"
+    },
+    "promo_days": {
+     "legacy": "sum=1129.0000 nulls=0",
+     "bigquery": "sum=1129.0000 nulls=0"
+    },
+    "promo_units": {
+     "legacy": "sum=280.0000 nulls=0",
+     "bigquery": "sum=280.0000 nulls=0"
+    },
+    "baseline_units": {
+     "legacy": "sum=536.0000 nulls=0",
+     "bigquery": "sum=536.0000 nulls=0"
+    },
+    "promo_revenue_eur": {
+     "legacy": "sum=2042.8600 nulls=0",
+     "bigquery": "sum=2042.8600 nulls=0"
+    },
+    "promo_daily_units": {
+     "legacy": "sum=20.9517 nulls=0",
+     "bigquery": "sum=20.9517 nulls=0"
+    },
+    "baseline_daily_units": {
+     "legacy": "sum=19.1435 nulls=0",
+     "bigquery": "sum=19.1435 nulls=0"
+    },
+    "uplift_pct": {
+     "legacy": "sum=4295.1000 nulls=12",
+     "bigquery": "sum=4295.1000 nulls=12"
+    },
+    "verdict": {
+     "legacy": "md5=dc62c19d46 nulls=0",
+     "bigquery": "md5=dc62c19d46 nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.gold_exec_kpi_monthly",
+   "passed": true,
+   "legacy_rows": 24,
+   "bigquery_rows": 24,
+   "columns": 8,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "region": {
+     "legacy": "md5=83296c6bf0 nulls=0",
+     "bigquery": "md5=83296c6bf0 nulls=0"
+    },
+    "month": {
+     "legacy": "md5=96d658e292 nulls=0",
+     "bigquery": "md5=96d658e292 nulls=0"
+    },
+    "net_revenue_eur": {
+     "legacy": "sum=235394.2700 nulls=0",
+     "bigquery": "sum=235394.2700 nulls=0"
+    },
+    "net_units": {
+     "legacy": "sum=32521.0000 nulls=0",
+     "bigquery": "sum=32521.0000 nulls=0"
+    },
+    "otif_pct": {
+     "legacy": "sum=1460.7500 nulls=0",
+     "bigquery": "sum=1460.7500 nulls=0"
+    },
+    "shipments": {
+     "legacy": "sum=6000.0000 nulls=0",
+     "bigquery": "sum=6000.0000 nulls=0"
+    },
+    "media_spend_eur": {
+     "legacy": "sum=27601135.7700 nulls=0",
+     "bigquery": "sum=27601135.7700 nulls=0"
+    },
+    "revenue_to_media_ratio": {
+     "legacy": "sum=0.2110 nulls=0",
+     "bigquery": "sum=0.2110 nulls=0"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}

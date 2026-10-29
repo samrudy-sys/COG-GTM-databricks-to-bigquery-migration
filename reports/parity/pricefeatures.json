@@ -1,0 +1,81 @@
+{
+ "unit": "pricefeatures",
+ "pipeline": "PL_RSI_PriceFeatures",
+ "dag_id": "pds_rsi_pricefeatures",
+ "run_date": "2024-04-30",
+ "passed": true,
+ "target": "http://localhost:9050 (project demo-proj)",
+ "seconds": 47.3,
+ "tasks": [
+  {
+   "task": "feat_price_elasticity",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 46.3
+  }
+ ],
+ "tables": [
+  {
+   "table": "pds_rsi.feat_price_elasticity",
+   "passed": true,
+   "legacy_rows": 8580,
+   "bigquery_rows": 8580,
+   "columns": 12,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "week_start": {
+     "legacy": "md5=a113fe753c nulls=0",
+     "bigquery": "md5=a113fe753c nulls=0"
+    },
+    "sku": {
+     "legacy": "md5=4be71b32d5 nulls=0",
+     "bigquery": "md5=4be71b32d5 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=8ce4075b59 nulls=0",
+     "bigquery": "md5=8ce4075b59 nulls=0"
+    },
+    "units": {
+     "legacy": "sum=33484.0000 nulls=0",
+     "bigquery": "sum=33484.0000 nulls=0"
+    },
+    "net_revenue_eur": {
+     "legacy": "sum=242926.2300 nulls=0",
+     "bigquery": "sum=242926.2300 nulls=0"
+    },
+    "avg_price_eur": {
+     "legacy": "sum=62560.2961 nulls=0",
+     "bigquery": "sum=62560.2961 nulls=0"
+    },
+    "log_units": {
+     "legacy": "sum=12296.1622 nulls=0",
+     "bigquery": "sum=12296.1622 nulls=0"
+    },
+    "log_price": {
+     "legacy": "sum=15768.6028 nulls=0",
+     "bigquery": "sum=15768.6028 nulls=0"
+    },
+    "on_promo": {
+     "legacy": "md5=7b608b6db7 nulls=0",
+     "bigquery": "md5=7b608b6db7 nulls=0"
+    },
+    "price_lag_1w": {
+     "legacy": "sum=56450.1022 nulls=840",
+     "bigquery": "sum=56450.1022 nulls=840"
+    },
+    "price_change_pct": {
+     "legacy": "sum=6127.9960 nulls=840",
+     "bigquery": "sum=6127.9960 nulls=840"
+    },
+    "units_ma_4w": {
+     "legacy": "sum=33466.1700 nulls=0",
+     "bigquery": "sum=33466.1700 nulls=0"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}

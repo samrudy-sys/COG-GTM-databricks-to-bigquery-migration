@@ -75,7 +75,8 @@ def main():
                        f'<small>after: {E(ups)}</small></div>')
         out.append("</div>")
     out.append("</div><p style='font-size:12px;color:#5b6475'>Dashed outline: race condition in the legacy master pipeline, "
-               "fixed by lineage ordering in the target master DAG.</p></section>")
+               "fixed by lineage ordering in the target master DAG"
+               + (f" (still open until {E(', '.join(sorted(race - set(parity))))} is migrated)" if race - set(parity) else "") + ".</p></section>")
 
     out.append("<section><h2>Migration units</h2><table><tr><th>Unit</th><th>Legacy assets</th><th>Complexity</th><th>Constructs</th>"
                "<th>Parity</th><th>Tables</th><th>PR</th></tr>")
@@ -85,6 +86,8 @@ def main():
         tbls = "".join(f"<div>{status(t['passed'])} <code>{E(t['table'])}</code> {t.get('legacy_rows', '?')} &harr; {t.get('bigquery_rows', '?')}</div>"
                        for t in (p or {}).get("tables", []))
         pr = f'<a href="{E(ru["pr_url"])}">{E(ru["pr_url"].rsplit("/", 1)[-1])}</a>' if ru.get("pr_url") else ""
+        if not p and ru and not ru.get("parity_passed"):
+            tbls = f"<div class=fail>not integrated: parity failed on its branch</div><small>{E(ru.get('summary', ''))}</small>"
         out.append(f"<tr><td><b>{E(u['id'])}</b></td><td>{E(', '.join(u['member_pipelines']))}<br><small>{E(', '.join(u['notebooks']))}</small></td>"
                    f"<td>{E(u['complexity'])}</td><td>{''.join(f'<span class=tag>{E(c)}</span>' for c in u['constructs'])}</td>"
                    f"<td>{status(p['passed'] if p else None)}</td><td>{tbls}</td><td>{pr}</td></tr>")
@@ -115,12 +118,20 @@ def main():
                        f"{t.get('columns', '?')} columns</summary>{note}<table><tr><th>Column</th><th>Legacy (Delta)</th><th>BigQuery</th></tr>{rows}</table></details>")
     out.append("</section>")
     if integ:
-        out.append(f"<section><h2>End-to-end integration run</h2><p>{status(integ['passed'])}: every unit DAG executed in wave order on one BigQuery "
-                   f"instance from raw sources only. {integ['tables_at_parity']}/{integ['tables_total']} tables at parity in {integ['seconds']}s.</p></section>")
+        missing = integ.get("missing_units") or []
+        ran = "every unit DAG" if not missing else f"{len(integ.get('units', []))} unit DAGs"
+        gap = f" Not executed (no DAG yet): {E(', '.join(missing))}." if missing else ""
+        out.append(f"<section><h2>End-to-end integration run</h2><p>{status(integ['passed'])}: {ran} executed in wave order on one BigQuery "
+                   f"instance from raw sources only. {integ['tables_at_parity']}/{integ['tables_total']} tables at parity in {integ['seconds']}s.{gap}</p></section>")
+    target = next(iter(parity.values()), {}).get("target", "n/a")
+    emulator = "localhost" in target or "127.0.0.1" in target
     out.append("<section><h2>Sign-off</h2><table><tr><th>Role</th><th>Name</th><th>Date</th></tr>"
                "<tr><td>Product owner</td><td></td><td></td></tr><tr><td>Data engineering lead</td><td></td><td></td></tr></table>"
-               "<p style='font-size:12px;color:#5b6475'>Target used for this evidence: " + E(next(iter(parity.values()), {}).get("target", "n/a"))
-               + ". Activities that are not replayed (Power BI refresh, Cloud SQL copy, failure webhook, GCS sensors) are mapped in each DAG docstring.</p></section>")
+               + (f"<p class=fail>Validation ran on the local BigQuery emulator ({E(target)}), not production BigQuery. "
+                  "Re-run <code>make parity</code> and <code>make integration</code> against a real GCP project before sign-off.</p>" if emulator else
+                  f"<p style='font-size:12px;color:#5b6475'>Target used for this evidence: {E(target)}.</p>")
+               + "<p style='font-size:12px;color:#5b6475'>Activities that are not replayed (Power BI refresh, Azure SQL &rarr; Cloud SQL copy, "
+               "failure webhook, GCS sensors) are mapped in each DAG docstring.</p></section>")
     out.append("</main></body></html>")
     REPORTS.mkdir(exist_ok=True)
     (REPORTS / "index.html").write_text("\n".join(out))

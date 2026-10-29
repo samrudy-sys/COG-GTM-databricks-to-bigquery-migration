@@ -59,3 +59,23 @@ def bq_sql(task_id, sql_file, **kwargs):
         gcp_conn_id=GCP_CONN_ID,
         **kwargs,
     )
+
+
+DAGS_DIR = Path(__file__).resolve().parent
+
+
+def unit_dag_exists(unit):
+    return (DAGS_DIR / f"pds_rsi_{unit}.py").exists()
+
+
+def trigger_unit(unit, run_date=RUN_DATE):
+    """ADF ExecutePipeline (waitOnCompletion=true) -> TriggerDagRunOperator that blocks until the unit DAG finishes."""
+    from airflow.operators.trigger_dagrun import TriggerDagRunOperator
+
+    return TriggerDagRunOperator(
+        task_id=f"run_{unit}", trigger_dag_id=f"pds_rsi_{unit}", conf={"run_date": run_date},
+        logical_date="{{ logical_date }}", reset_dag_run=True, wait_for_completion=True, poke_interval=60,
+        allowed_states=["success"], failed_states=["failed"],
+        retries=0,                              # the unit DAG's own tasks retry; ADF ExecutePipeline has no retry
+        execution_timeout=timedelta(hours=12),  # covers salesdaily's 6h FX-file sensor
+    )

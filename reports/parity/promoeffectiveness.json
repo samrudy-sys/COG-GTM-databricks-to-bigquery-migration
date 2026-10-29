@@ -1,0 +1,93 @@
+{
+ "unit": "promoeffectiveness",
+ "pipeline": "PL_RSI_PromoEffectiveness",
+ "dag_id": "pds_rsi_promoeffectiveness",
+ "run_date": "2024-04-30",
+ "passed": true,
+ "target": "http://localhost:9050 (project demo-proj)",
+ "seconds": 13.6,
+ "tasks": [
+  {
+   "task": "gold_promo_uplift",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 13.22
+  }
+ ],
+ "tables": [
+  {
+   "table": "pds_rsi.gold_promo_uplift",
+   "passed": true,
+   "legacy_rows": 80,
+   "bigquery_rows": 80,
+   "columns": 15,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "promo_id": {
+     "legacy": "md5=4e1719bdb2 nulls=0",
+     "bigquery": "md5=4e1719bdb2 nulls=0"
+    },
+    "sku": {
+     "legacy": "md5=40c4ffe26f nulls=0",
+     "bigquery": "md5=40c4ffe26f nulls=0"
+    },
+    "retailer": {
+     "legacy": "md5=2121e0acd5 nulls=0",
+     "bigquery": "md5=2121e0acd5 nulls=0"
+    },
+    "promo_type": {
+     "legacy": "md5=39d1cb1a26 nulls=0",
+     "bigquery": "md5=39d1cb1a26 nulls=0"
+    },
+    "discount_pct": {
+     "legacy": "sum=16.2200 nulls=0",
+     "bigquery": "sum=16.2200 nulls=0"
+    },
+    "start_date": {
+     "legacy": "md5=e84dcb2c66 nulls=0",
+     "bigquery": "md5=e84dcb2c66 nulls=0"
+    },
+    "end_date": {
+     "legacy": "md5=ea8d6d2e02 nulls=0",
+     "bigquery": "md5=ea8d6d2e02 nulls=0"
+    },
+    "promo_days": {
+     "legacy": "sum=1129.0000 nulls=0",
+     "bigquery": "sum=1129.0000 nulls=0"
+    },
+    "promo_units": {
+     "legacy": "sum=280.0000 nulls=0",
+     "bigquery": "sum=280.0000 nulls=0"
+    },
+    "baseline_units": {
+     "legacy": "sum=536.0000 nulls=0",
+     "bigquery": "sum=536.0000 nulls=0"
+    },
+    "promo_revenue_eur": {
+     "legacy": "sum=2042.8600 nulls=0",
+     "bigquery": "sum=2042.8600 nulls=0"
+    },
+    "promo_daily_units": {
+     "legacy": "sum=20.9517 nulls=0",
+     "bigquery": "sum=20.9517 nulls=0"
+    },
+    "baseline_daily_units": {
+     "legacy": "sum=19.1435 nulls=0",
+     "bigquery": "sum=19.1435 nulls=0"
+    },
+    "uplift_pct": {
+     "legacy": "sum=4295.1000 nulls=12",
+     "bigquery": "sum=4295.1000 nulls=12"
+    },
+    "verdict": {
+     "legacy": "md5=dc62c19d46 nulls=0",
+     "bigquery": "md5=dc62c19d46 nulls=0"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}

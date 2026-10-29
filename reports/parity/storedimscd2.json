@@ -1,0 +1,95 @@
+{
+ "unit": "storedimscd2",
+ "pipeline": "PL_RSI_StoreDimSCD2",
+ "dag_id": "pds_rsi_storedimscd2",
+ "run_date": "2024-04-30",
+ "passed": true,
+ "target": "http://localhost:9050 (project demo-proj)",
+ "seconds": 3.3,
+ "tasks": [
+  {
+   "task": "check_full_reload",
+   "operator": "BranchPythonOperator",
+   "status": "not replayed (external side effect)"
+  },
+  {
+   "task": "dim_store_init",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 0.64
+  },
+  {
+   "task": "skip_init",
+   "operator": "EmptyOperator",
+   "status": "not replayed (external side effect)"
+  },
+  {
+   "task": "stg_dim_store",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 1.04
+  },
+  {
+   "task": "dim_store_scd2",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 1.33
+  }
+ ],
+ "tables": [
+  {
+   "table": "pds_rsi.dim_store",
+   "passed": true,
+   "legacy_rows": 77,
+   "bigquery_rows": 77,
+   "columns": 10,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "store_sk": {
+     "legacy": "md5=e92a439f1e nulls=0",
+     "bigquery": "md5=e92a439f1e nulls=0"
+    },
+    "store_id": {
+     "legacy": "md5=a5a2d239ca nulls=0",
+     "bigquery": "md5=a5a2d239ca nulls=0"
+    },
+    "retailer": {
+     "legacy": "md5=c695ca54d3 nulls=0",
+     "bigquery": "md5=c695ca54d3 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=c423b90724 nulls=0",
+     "bigquery": "md5=c423b90724 nulls=0"
+    },
+    "region": {
+     "legacy": "md5=95c7955900 nulls=0",
+     "bigquery": "md5=95c7955900 nulls=0"
+    },
+    "store_format": {
+     "legacy": "md5=d9f2510480 nulls=0",
+     "bigquery": "md5=d9f2510480 nulls=0"
+    },
+    "open_date": {
+     "legacy": "md5=b4c717ca05 nulls=0",
+     "bigquery": "md5=b4c717ca05 nulls=0"
+    },
+    "valid_from": {
+     "legacy": "md5=3cc4c0a69f nulls=0",
+     "bigquery": "md5=3cc4c0a69f nulls=0"
+    },
+    "valid_to": {
+     "legacy": "md5=1c2a5bba7e nulls=0",
+     "bigquery": "md5=1c2a5bba7e nulls=0"
+    },
+    "is_current": {
+     "legacy": "md5=a64b82bd6b nulls=0",
+     "bigquery": "md5=a64b82bd6b nulls=0"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}

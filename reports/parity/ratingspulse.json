@@ -1,0 +1,57 @@
+{
+ "unit": "ratingspulse",
+ "pipeline": "PL_RSI_RatingsPulse",
+ "dag_id": "pds_rsi_ratingspulse",
+ "run_date": "2024-04-30",
+ "passed": true,
+ "target": "http://localhost:9050 (project demo-proj)",
+ "seconds": 25.4,
+ "tasks": [
+  {
+   "task": "gold_ratings_pulse",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 25.03
+  }
+ ],
+ "tables": [
+  {
+   "table": "pds_rsi.gold_ratings_pulse",
+   "passed": true,
+   "legacy_rows": 2713,
+   "bigquery_rows": 2713,
+   "columns": 6,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "sku": {
+     "legacy": "md5=f88f1b3d3f nulls=0",
+     "bigquery": "md5=f88f1b3d3f nulls=0"
+    },
+    "review_date": {
+     "legacy": "md5=544ae8961d nulls=0",
+     "bigquery": "md5=544ae8961d nulls=0"
+    },
+    "reviews_30d": {
+     "legacy": "sum=17007.0000 nulls=0",
+     "bigquery": "sum=17007.0000 nulls=0"
+    },
+    "avg_rating_30d": {
+     "legacy": "sum=10805.4420 nulls=0",
+     "bigquery": "sum=10805.4420 nulls=0"
+    },
+    "nps_30d": {
+     "legacy": "sum=38314.0000 nulls=0",
+     "bigquery": "sum=38314.0000 nulls=0"
+    },
+    "low_confidence": {
+     "legacy": "md5=a836dae840 nulls=0",
+     "bigquery": "md5=a836dae840 nulls=0"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}
