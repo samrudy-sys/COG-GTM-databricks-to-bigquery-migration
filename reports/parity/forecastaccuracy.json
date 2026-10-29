@@ -1,0 +1,70 @@
+{
+ "unit": "forecastaccuracy",
+ "pipeline": "PL_RSI_ForecastAccuracy",
+ "dag_id": "pds_rsi_forecastaccuracy",
+ "run_date": "2024-04-30",
+ "passed": true,
+ "target": "http://localhost:9050 (project demo-proj)",
+ "seconds": 108.3,
+ "tasks": [
+  {
+   "task": "gold_forecast_accuracy",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 105.78
+  },
+  {
+   "task": "copy_to_demand_planning_db",
+   "operator": "BigQueryToPostgresOperator",
+   "status": "not replayed (external side effect)"
+  }
+ ],
+ "tables": [
+  {
+   "table": "pds_rsi.gold_forecast_accuracy",
+   "passed": true,
+   "legacy_rows": 790,
+   "bigquery_rows": 790,
+   "columns": 8,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "sku": {
+     "legacy": "md5=70fea06651 nulls=0",
+     "bigquery": "md5=70fea06651 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=ea5f91ecec nulls=0",
+     "bigquery": "md5=ea5f91ecec nulls=0"
+    },
+    "weeks": {
+     "legacy": "sum=2040.0000 nulls=0",
+     "bigquery": "sum=2040.0000 nulls=0"
+    },
+    "forecast_units": {
+     "legacy": "sum=12269.7400 nulls=0",
+     "bigquery": "sum=12269.7400 nulls=0"
+    },
+    "actual_units": {
+     "legacy": "sum=4484.0000 nulls=0",
+     "bigquery": "sum=4484.0000 nulls=0"
+    },
+    "mape_pct": {
+     "legacy": "sum=116627.2500 nulls=140",
+     "bigquery": "sum=116627.2500 nulls=140"
+    },
+    "bias_pct": {
+     "legacy": "sum=162871.4700 nulls=142",
+     "bigquery": "sum=162871.4700 nulls=142"
+    },
+    "accuracy_pct": {
+     "legacy": "sum=-119620.7600 nulls=142",
+     "bigquery": "sum=-119620.7600 nulls=142"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}
