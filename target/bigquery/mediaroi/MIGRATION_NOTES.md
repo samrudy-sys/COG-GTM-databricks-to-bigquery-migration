@@ -21,7 +21,5 @@ ADF `PL_RSI_MediaROI` → DAG `pds_rsi_mediaroi`. Upstream unit: `salesdaily` (`
 * `Notify_Failure` (external webhook). It is covered by the shared failure callback.
 
 ## Parity (BigQuery emulator, run_date 2024-04-30)
-`silver_media_weekly` 624/624 rows, `gold_media_roi` 624/624 rows. Every value matches exactly, with 0 rounding-boundary rows.
-This result came from a run where the harness staged upstream tables with one local workaround. `make parity UNIT=mediaroi` on `main` currently
-crashes before it runs any SQL: `tools/parity.py:stage_inputs` appends `_load_ts` to baseline schemas that already contain it
-(`Duplicate column name _load_ts`). This is reported as a shared change request. The comparison logic was not modified.
+Unmodified `make parity UNIT=mediaroi` on this branch (with `origin/main` merged in, which includes the shared `_load_ts` staging fix) exits 0.
+`silver_media_weekly` has 624/624 rows and `gold_media_roi` has 624/624 rows. Every value matches, with 0 rounding-boundary rows. The report is `reports/parity/mediaroi.json`.
