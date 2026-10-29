@@ -1,0 +1,192 @@
+{
+ "workflow_run_id": "wfr-b3eec4454e1544a3ab5b941cf7634d69",
+ "units": [
+  {
+   "branch": "migrate/execkpipack",
+   "parity_passed": true,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/7",
+   "summary": "carried over from a previous run (passing parity report on its branch)",
+   "unit": "execkpipack"
+  },
+  {
+   "branch": "migrate/otif",
+   "parity_passed": true,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/1",
+   "summary": "carried over from a previous run (passing parity report on its branch)",
+   "unit": "otif"
+  },
+  {
+   "branch": "migrate/productdim",
+   "parity_passed": true,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/5",
+   "summary": "carried over from a previous run (passing parity report on its branch)",
+   "unit": "productdim"
+  },
+  {
+   "branch": "migrate/promoeffectiveness",
+   "parity_passed": true,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/6",
+   "summary": "carried over from a previous run (passing parity report on its branch)",
+   "unit": "promoeffectiveness"
+  },
+  {
+   "branch": "migrate/ratingspulse",
+   "parity_passed": true,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/4",
+   "summary": "carried over from a previous run (passing parity report on its branch)",
+   "unit": "ratingspulse"
+  },
+  {
+   "branch": "migrate/storedimscd2",
+   "parity_passed": true,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/8",
+   "summary": "carried over from a previous run (passing parity report on its branch)",
+   "unit": "storedimscd2"
+  },
+  {
+   "branch": "migrate/forecastaccuracy",
+   "dag_tasks": 2,
+   "not_replayed": [
+    "Copy_To_DemandPlanningDB (BigQueryToPostgresOperator copy_to_demand_planning_db, external Cloud SQL)",
+    "Notify_Failure (WebActivity, DEFAULT_ARGS.on_failure_callback)"
+   ],
+   "parity_passed": true,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/9",
+   "semantic_fixes": [
+    "Spark date_trunc('week') is Monday-based, so it maps to DATE_TRUNC(txn_date, WEEK(MONDAY)) instead of the Sunday-based default WEEK",
+    "Window + row_number()==1 for the latest forecast version maps to QUALIFY ROW_NUMBER() OVER (PARTITION BY UPPER(TRIM(sku)) ...) = 1, with the week_start <= run_date filter applied after the dedup as in the notebook",
+    "Spark (ANSI off) returns NULL on x/0, so ape, bias_pct and accuracy_pct use SAFE_DIVIDE",
+    "F.round(x, 2) maps to CAST(ROUND(CAST(x AS NUMERIC), 2) AS FLOAT64)"
+   ],
+   "shared_change_requests": [],
+   "summary": "Resumed migrate/forecastaccuracy and merged origin/main into it. Main now has the _load_ts staging fix in tools/parity.py and the postgres provider. With those in place, make parity UNIT=forecastaccuracy exits 0: gold_forecast_accuracy has 790 legacy rows and 790 BigQuery rows, 8/8 columns match, and checksums are identical. No SQL change was needed. make lint is clean. MIGRATION_NOTES.md now has the passing parity table, and the parity report is committed. PR #9 is updated with the activity mapping and parity table. The results come from the BigQuery emulator only.",
+   "tables": [
+    {
+     "passed": true,
+     "rows": 790,
+     "table": "pds_rsi.gold_forecast_accuracy"
+    }
+   ],
+   "unit": "forecastaccuracy"
+  },
+  {
+   "branch": "migrate/inventoryhealth",
+   "dag_tasks": 1,
+   "not_replayed": [
+    "Notify_Failure (WebActivity) -> DEFAULT_ARGS.on_failure_callback"
+   ],
+   "parity_passed": false,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/13",
+   "semantic_fixes": [
+    "normalize_sku -> UPPER(TRIM(sku)); ~is_return -> NOT is_return",
+    "Trailing 28-day range left join rewritten as a running SUM over sales UNION ALL start/end marker rows (the emulator times out on the join and rejects RANGE n PRECEDING with PARTITION BY)",
+    "Duplicate snapshot rows: the notebook groups after the join, so each duplicate's sales count again; reproduced with dup_rows * units",
+    "F.round -> CAST(ROUND(CAST(x AS NUMERIC), n) AS FLOAT64); division via SAFE_DIVIDE",
+    "lag computed on grouped snapshot rows before the running-sum window (the emulator rejects a second analytic function after it)",
+    "Spark lag over non-unique orderBy(snapshot_date): legacy tie order is a shuffle/hash-aggregate artefact (replay shows 0/93/102/12 diffs for shuffle.partitions 4/8/1 and AQE off). SQL uses on_hand_units as a deterministic tiebreak, which leaves 154 wow_change_units mismatches"
+   ],
+   "shared_change_requests": [
+    "Business decision + legacy/ change: dedupe udl.inventory_snapshots per (snapshot_date, store_id, sku), or add an agreed tiebreak (e.g. on_hand_units) to nb_inventory_cover's lag window, then regenerate migration/baseline/pds_rsi.gold_inventory_health.json.gz. Without this, exact parity on wow_change_units is impossible.",
+    "Master DAG (integrator): order salesdaily >> inventoryhealth (race_condition finding)"
+   ],
+   "summary": "Merged origin/main (with the _load_ts harness fix) and reran make parity. All 4,248 rows and every column match except wow_change_units: 154 rows, all in the 8 store/sku pairs with duplicate snapshots per date. An out-of-repo replay on PySpark matched the baseline exactly, and changing only the Spark shuffle/AQE config changes those legacy values. The legacy tie order therefore comes from Spark's physical execution, not from business logic. Not passed: this needs a dedupe or tiebreak decision plus a baseline change. Lint is clean. Notes and the report were pushed and PR #13 was updated.",
+   "tables": [
+    {
+     "passed": false,
+     "rows": 4248,
+     "table": "pds_rsi.gold_inventory_health"
+    }
+   ],
+   "unit": "inventoryhealth"
+  },
+  {
+   "branch": "migrate/marketshare",
+   "dag_tasks": 1,
+   "not_replayed": [
+    "DEFAULT_ARGS.on_failure_callback (failure alert convention; no activity in pipeline JSON)"
+   ],
+   "parity_passed": true,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/3",
+   "semantic_fixes": [
+    "%sql temp view v_sales_enriched -> CTE; CAST(date_trunc('month', txn_date) AS DATE) -> DATE_TRUNC(txn_date, MONTH)",
+    "SCD2 dim_store join keeps s.is_current filter",
+    "F.round (brand revenue 2dp, category revenue 2dp, value share 3dp) -> CAST(ROUND(CAST(x AS NUMERIC), n) AS FLOAT64); category revenue is rounded sum of rounded brand revenues as in notebook",
+    "100 * brand / category -> SAFE_DIVIDE (Spark returns NULL on x/0 with ANSI off)",
+    "F.dense_rank().over(window orderBy desc) -> DENSE_RANK() OVER (PARTITION BY month, country, retailer, category ORDER BY brand_revenue_eur DESC), INT64",
+    "ZetaSQL/emulator: CTE named 'category' made PARTITION BY category resolve to the row struct; renamed CTE to brand_category",
+    "nb_common_utils write_delta audit column -> CURRENT_TIMESTAMP() AS _load_ts last"
+   ],
+   "shared_change_requests": [],
+   "summary": "Merged origin/main (which fixed the duplicate _load_ts staging bug in tools/parity.py) into migrate/marketshare. With no SQL changes, make parity UNIT=marketshare exits 0: gold_market_share 800/800 rows, 10/10 columns, all checksums match, 0 rounding-boundary rows (BigQuery emulator). make lint clean. Updated MIGRATION_NOTES, DAG docstring and the parity report, pushed, and updated PR #3. The baseline has one brand per group, so share_rank ties and the divide-by-zero path are mapped but not exercised. The sign-off report browser check is left to the integration step.",
+   "tables": [
+    {
+     "passed": true,
+     "rows": 800,
+     "table": "pds_rsi.gold_market_share"
+    }
+   ],
+   "unit": "marketshare"
+  },
+  {
+   "branch": "migrate/mediaroi",
+   "dag_tasks": 2,
+   "not_replayed": [
+    "Notify_Failure (WebActivity) -> DEFAULT_ARGS.on_failure_callback"
+   ],
+   "parity_passed": true,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/2",
+   "semantic_fixes": [
+    "Spark date_trunc('week') (Monday-based) -> DATE_TRUNC(d, WEEK(MONDAY)) in both notebooks",
+    "pivot(media_channel).agg(round(sum)).na.fill(0.0) -> conditional aggregation SUM(IF(channel=..., spend_eur, NULL)) rounded then COALESCE(.., 0.0)",
+    "f-string dynamic SQL ({run_date}, {PDS_SCHEMA}) -> Jinja RUN_DATE + literal pds_rsi. refs; temp view v_weekly_brand_revenue -> CTE",
+    "F.round / SQL ROUND -> CAST(ROUND(CAST(x AS NUMERIC), n) AS FLOAT64) for Spark HALF_UP",
+    "x / total_spend_eur and CPM division -> SAFE_DIVIDE (Spark ANSI-off returns NULL on /0)",
+    "SUM(impressions)/SUM(net_units) kept INT64 (Spark bigint); spend/revenue FLOAT64"
+   ],
+   "shared_change_requests": [],
+   "summary": "Merged latest origin/main (shared _load_ts staging fix) into migrate/mediaroi. Unmodified `make parity UNIT=mediaroi` now exits 0: silver_media_weekly 624/624 and gold_media_roi 624/624, all values exact, 0 rounding-boundary rows (BigQuery emulator). make lint clean. Committed reports/parity/mediaroi.json, updated MIGRATION_NOTES.md, pushed, and updated PR #2 with mapping and parity table. SQL unchanged from previous run. Sign-off report browser check not done (built in integration step).",
+   "tables": [
+    {
+     "passed": true,
+     "rows": 624,
+     "table": "pds_rsi.silver_media_weekly"
+    },
+    {
+     "passed": true,
+     "rows": 624,
+     "table": "pds_rsi.gold_media_roi"
+    }
+   ],
+   "unit": "mediaroi"
+  },
+  {
+   "branch": "migrate/pricefeatures",
+   "dag_tasks": 1,
+   "not_replayed": [],
+   "parity_passed": true,
+   "pr_url": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/10",
+   "semantic_fixes": [
+    "date_trunc('week') (Monday-based) -> DATE_TRUNC(txn_date, WEEK(MONDAY))",
+    "~is_return -> WHERE NOT is_return",
+    "normalize_sku -> UPPER(TRIM(sku)) on udl.promotions",
+    "left_semi date-overlap promo join -> SELECT DISTINCT inner join + LEFT JOIN, on_promo = matched (COALESCE false)",
+    "lag / avg rowsBetween(-3,0) -> LAG / AVG ROWS BETWEEN 3 PRECEDING AND CURRENT ROW",
+    "x/0 NULL in Spark -> SAFE_DIVIDE",
+    "log(x<=0) NULL in Spark -> IF(x > 0, LN(x), NULL); log1p(u) -> LN(1 + u)",
+    "Spark round(double) HALF_UP on decimal string: NUMERIC-cast pattern wrong under float drift (37.9449/6) -> exact Jinja macro spark_round(x, n) comparing |x| against the tie (10k+5)/10^(n+1)",
+    "Emulator: no unary minus (0 - x) and SIGN(x)*y/n truncates -> IF(x < 0, 0 - m, m)"
+   ],
+   "shared_change_requests": [],
+   "summary": "Merged origin/main (shared _load_ts staging fix from #12) into migrate/pricefeatures; SQL/DAG unchanged. make parity UNIT=pricefeatures exits 0: feat_price_elasticity legacy 8580 = BigQuery 8580, 0 issues, 0 rounding-boundary rows (emulator). make lint clean. Committed reports/parity/pricefeatures.json, updated MIGRATION_NOTES.md and PR #10 body.",
+   "tables": [
+    {
+     "passed": true,
+     "rows": 8580,
+     "table": "pds_rsi.feat_price_elasticity"
+    }
+   ],
+   "unit": "pricefeatures"
+  }
+ ],
+ "integration_pr": "https://github.com/samrudy-sys/COG-GTM-databricks-to-bigquery-migration/pull/14"
+}
