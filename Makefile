@@ -8,6 +8,7 @@ UNIT ?=
 setup:            ## venv with Airflow + Google provider (target side)
 	test -x $(PY) || python3 -m venv .venv
 	$(PY) -m pip install -q -r requirements.txt --constraint $(AIRFLOW_CONSTRAINTS)
+	$(PY) -m pip install -q ruff==0.6.9  # newer than the Airflow constraints pin
 
 setup-legacy: setup  ## + PySpark/Delta to replay the legacy estate (needs Java 17)
 	$(PY) -m pip install -q -r requirements-legacy.txt
