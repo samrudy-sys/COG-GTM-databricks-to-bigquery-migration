@@ -5,13 +5,13 @@
  "run_date": "2024-04-30",
  "passed": true,
  "target": "http://localhost:9050 (project demo-proj)",
- "seconds": 90.6,
+ "seconds": 95.6,
  "tasks": [
   {
    "task": "silver_sales",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 4.8
+   "seconds": 2.96
   },
   {
    "task": "check_fx_published",
@@ -22,7 +22,7 @@
    "task": "silver_sales_eur",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 68.25
+   "seconds": 86.39
   },
   {
    "task": "gold_sales_daily",
@@ -46,37 +46,8 @@
    "columns": 10,
    "issues": [],
    "samples": [],
-   "rounding_boundary": {
-    "avg_selling_price_eur": 85,
-    "net_revenue_eur": 2,
-    "gross_revenue_eur": 3
-   },
-   "rounding_boundary_samples": [
-    {
-     "legacy": {
-      "avg_selling_price_eur": 2.1341
-     },
-     "bigquery": {
-      "avg_selling_price_eur": 2.134
-     }
-    },
-    {
-     "legacy": {
-      "avg_selling_price_eur": 12.0492
-     },
-     "bigquery": {
-      "avg_selling_price_eur": 12.0491
-     }
-    },
-    {
-     "legacy": {
-      "avg_selling_price_eur": 4.8253
-     },
-     "bigquery": {
-      "avg_selling_price_eur": 4.8252
-     }
-    }
-   ],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
    "checksums": {
     "txn_date": {
      "legacy": "md5=f11046bc11 nulls=0",
@@ -108,15 +79,15 @@
     },
     "net_revenue_eur": {
      "legacy": "sum=235394.2700 nulls=0",
-     "bigquery": "sum=235394.2500 nulls=0"
+     "bigquery": "sum=235394.2700 nulls=0"
     },
     "gross_revenue_eur": {
      "legacy": "sum=250913.6200 nulls=0",
-     "bigquery": "sum=250913.5900 nulls=0"
+     "bigquery": "sum=250913.6200 nulls=0"
     },
     "avg_selling_price_eur": {
      "legacy": "sum=100079.5224 nulls=2",
-     "bigquery": "sum=100079.5147 nulls=2"
+     "bigquery": "sum=100079.5224 nulls=2"
     }
    },
    "type_notes": {}
@@ -199,19 +170,8 @@
    "columns": 18,
    "issues": [],
    "samples": [],
-   "rounding_boundary": {
-    "gross_amount_eur": 1
-   },
-   "rounding_boundary_samples": [
-    {
-     "legacy": {
-      "gross_amount_eur": 57.5086
-     },
-     "bigquery": {
-      "gross_amount_eur": 57.5087
-     }
-    }
-   ],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
    "checksums": {
     "txn_id": {
      "legacy": "md5=c9a226d8e2 nulls=0",
@@ -279,7 +239,7 @@
     },
     "gross_amount_eur": {
      "legacy": "sum=250912.8413 nulls=0",
-     "bigquery": "sum=250912.8414 nulls=0"
+     "bigquery": "sum=250912.8413 nulls=0"
     },
     "net_amount_eur": {
      "legacy": "sum=235393.8122 nulls=0",

@@ -5,13 +5,13 @@
  "run_date": "2024-04-30",
  "passed": true,
  "target": "http://localhost:9050 (project demo-proj)",
- "seconds": 27.1,
+ "seconds": 25.4,
  "tasks": [
   {
    "task": "gold_ratings_pulse",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 25.59
+   "seconds": 25.03
   }
  ],
  "tables": [

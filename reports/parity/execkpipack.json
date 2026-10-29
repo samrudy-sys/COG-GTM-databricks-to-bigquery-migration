@@ -5,13 +5,13 @@
  "run_date": "2024-04-30",
  "passed": true,
  "target": "http://localhost:9050 (project demo-proj)",
- "seconds": 3.2,
+ "seconds": 2.5,
  "tasks": [
   {
    "task": "gold_exec_kpi_monthly",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 1.37
+   "seconds": 2.12
   },
   {
    "task": "refresh_powerbi_execpack",

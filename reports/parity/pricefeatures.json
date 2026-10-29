@@ -5,13 +5,13 @@
  "run_date": "2024-04-30",
  "passed": true,
  "target": "http://localhost:9050 (project demo-proj)",
- "seconds": 52.5,
+ "seconds": 47.3,
  "tasks": [
   {
    "task": "feat_price_elasticity",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 48.9
+   "seconds": 46.3
   }
  ],
  "tables": [

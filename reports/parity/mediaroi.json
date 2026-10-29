@@ -5,19 +5,19 @@
  "run_date": "2024-04-30",
  "passed": true,
  "target": "http://localhost:9050 (project demo-proj)",
- "seconds": 10.6,
+ "seconds": 10.4,
  "tasks": [
   {
    "task": "silver_media_weekly",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 0.47
+   "seconds": 1.1
   },
   {
    "task": "gold_media_roi",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 6.04
+   "seconds": 8.51
   }
  ],
  "tables": [

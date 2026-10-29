@@ -5,49 +5,49 @@
  "run_date": "2024-04-30",
  "passed": true,
  "target": "http://localhost:9050 (project demo-proj)",
- "seconds": 14.9,
+ "seconds": 11.1,
  "tasks": [
   {
    "task": "create_gold_otif",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 0.07
+   "seconds": 0.57
   },
   {
    "task": "otif_region.gold_otif_uki",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 2.35
+   "seconds": 1.53
   },
   {
    "task": "otif_region.gold_otif_dach",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 1.98
+   "seconds": 1.45
   },
   {
    "task": "otif_region.gold_otif_weu",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 2.07
+   "seconds": 1.61
   },
   {
    "task": "otif_region.gold_otif_sa",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 1.91
+   "seconds": 1.55
   },
   {
    "task": "otif_region.gold_otif_na",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 2.01
+   "seconds": 1.48
   },
   {
    "task": "otif_region.gold_otif_cee",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 1.92
+   "seconds": 1.43
   }
  ],
  "tables": [
