@@ -3,7 +3,7 @@
 ADF                                   Composer / BigQuery
 NB_Market_Share -> nb_market_share    gold_market_share
 (trigger TR_RSI_Daily_0200)           schedule=None; run from the master DAG after productdim, salesdaily, storedimscd2
-Notify_Failure (WebActivity)          DEFAULT_ARGS.on_failure_callback
+(failure alert, product convention)   DEFAULT_ARGS.on_failure_callback
 """
 from airflow import DAG
 

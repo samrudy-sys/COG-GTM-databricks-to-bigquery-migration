@@ -3,17 +3,15 @@
  "pipeline": "PL_RSI_MarketShare",
  "dag_id": "pds_rsi_marketshare",
  "run_date": "2024-04-30",
- "passed": false,
- "make_parity_exit_code": 2,
- "harness_note": "`make parity UNIT=marketshare` fails before running SQL: tools/parity.py stage_inputs appends _load_ts to baseline schemas that already contain it (Duplicate column name _load_ts). The task/table results below come from the same harness run out-of-repo with only that duplicate column dropped (bq_schema_from_spark monkeypatched); comparison logic unchanged.",
+ "passed": true,
  "target": "http://localhost:9050 (project demo-proj)",
- "seconds": 9.8,
+ "seconds": 11.2,
  "tasks": [
   {
    "task": "gold_market_share",
    "operator": "BigQueryInsertJobOperator",
    "status": "ok",
-   "seconds": 7.28
+   "seconds": 5.96
   }
  ],
  "tables": [

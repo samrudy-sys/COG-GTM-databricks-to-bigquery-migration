@@ -20,10 +20,9 @@ ADF `PL_RSI_MarketShare` (trigger `TR_RSI_Daily_0200`) → DAG `pds_rsi_marketsh
   ("Partitioning by expressions of type STRUCT containing DOUBLE"), so the CTE is named `brand_category`. Also valid on real BigQuery.
 
 ## Parity (BigQuery emulator, run_date 2024-04-30)
-`gold_market_share` 800 legacy rows, 800 BigQuery rows, all 10 columns and checksums match, 0 rounding-boundary rows.
-**Caveat:** `make parity UNIT=marketshare` itself exits non-zero because of a shared harness bug: `tools/parity.py stage_inputs`
-adds `_load_ts` to upstream baseline schemas that already contain it, so creating `pds_rsi.dim_product` fails with a duplicate column.
-The result above comes from the same harness with only that duplicate column dropped (an out-of-repo monkeypatch). The fix belongs in `tools/`.
+`make parity UNIT=marketshare` exits 0: `gold_market_share` 800 legacy rows, 800 BigQuery rows, all 10 columns and checksums match,
+0 rounding-boundary rows. The earlier `_load_ts` duplicate-column failure in `tools/parity.py stage_inputs` was fixed on `main`
+and merged into this branch; no SQL change was needed.
 In this data every retailer x country x category x month has a single brand (share 100%, rank 1), so ties in `share_rank` and the
 divide-by-zero path are not exercised by the baseline.
 
