@@ -1,0 +1,141 @@
+{
+ "unit": "mediaroi",
+ "pipeline": "PL_RSI_MediaROI",
+ "dag_id": "pds_rsi_mediaroi",
+ "run_date": "2024-04-30",
+ "passed": true,
+ "target": "http://localhost:9050 (project demo-proj)",
+ "seconds": 10.6,
+ "tasks": [
+  {
+   "task": "silver_media_weekly",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 0.47
+  },
+  {
+   "task": "gold_media_roi",
+   "operator": "BigQueryInsertJobOperator",
+   "status": "ok",
+   "seconds": 6.04
+  }
+ ],
+ "tables": [
+  {
+   "table": "pds_rsi.gold_media_roi",
+   "passed": true,
+   "legacy_rows": 624,
+   "bigquery_rows": 624,
+   "columns": 13,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "week_start": {
+     "legacy": "md5=7a0ae588bb nulls=0",
+     "bigquery": "md5=7a0ae588bb nulls=0"
+    },
+    "brand": {
+     "legacy": "md5=3390849406 nulls=0",
+     "bigquery": "md5=3390849406 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=5ff40b5a22 nulls=0",
+     "bigquery": "md5=5ff40b5a22 nulls=0"
+    },
+    "total_spend_eur": {
+     "legacy": "sum=27601135.7700 nulls=0",
+     "bigquery": "sum=27601135.7700 nulls=0"
+    },
+    "spend_tv_eur": {
+     "legacy": "sum=6980247.5000 nulls=0",
+     "bigquery": "sum=6980247.5000 nulls=0"
+    },
+    "spend_search_eur": {
+     "legacy": "sum=6974595.5300 nulls=0",
+     "bigquery": "sum=6974595.5300 nulls=0"
+    },
+    "spend_social_eur": {
+     "legacy": "sum=6832769.2800 nulls=0",
+     "bigquery": "sum=6832769.2800 nulls=0"
+    },
+    "spend_retail_media_eur": {
+     "legacy": "sum=6813523.4600 nulls=0",
+     "bigquery": "sum=6813523.4600 nulls=0"
+    },
+    "impressions": {
+     "legacy": "sum=6592738607.0000 nulls=0",
+     "bigquery": "sum=6592738607.0000 nulls=0"
+    },
+    "net_revenue_eur": {
+     "legacy": "sum=235138.5300 nulls=0",
+     "bigquery": "sum=235138.5300 nulls=0"
+    },
+    "net_units": {
+     "legacy": "sum=32489.0000 nulls=0",
+     "bigquery": "sum=32489.0000 nulls=0"
+    },
+    "revenue_per_eur_spent": {
+     "legacy": "sum=6.4870 nulls=0",
+     "bigquery": "sum=6.4870 nulls=0"
+    },
+    "cpm_eur": {
+     "legacy": "sum=2721.9284 nulls=0",
+     "bigquery": "sum=2721.9284 nulls=0"
+    }
+   },
+   "type_notes": {}
+  },
+  {
+   "table": "pds_rsi.silver_media_weekly",
+   "passed": true,
+   "legacy_rows": 624,
+   "bigquery_rows": 624,
+   "columns": 9,
+   "issues": [],
+   "samples": [],
+   "rounding_boundary": {},
+   "rounding_boundary_samples": [],
+   "checksums": {
+    "week_start": {
+     "legacy": "md5=7a0ae588bb nulls=0",
+     "bigquery": "md5=7a0ae588bb nulls=0"
+    },
+    "brand": {
+     "legacy": "md5=3390849406 nulls=0",
+     "bigquery": "md5=3390849406 nulls=0"
+    },
+    "country": {
+     "legacy": "md5=5ff40b5a22 nulls=0",
+     "bigquery": "md5=5ff40b5a22 nulls=0"
+    },
+    "spend_tv_eur": {
+     "legacy": "sum=6980247.5000 nulls=0",
+     "bigquery": "sum=6980247.5000 nulls=0"
+    },
+    "spend_search_eur": {
+     "legacy": "sum=6974595.5300 nulls=0",
+     "bigquery": "sum=6974595.5300 nulls=0"
+    },
+    "spend_social_eur": {
+     "legacy": "sum=6832769.2800 nulls=0",
+     "bigquery": "sum=6832769.2800 nulls=0"
+    },
+    "spend_retail_media_eur": {
+     "legacy": "sum=6813523.4600 nulls=0",
+     "bigquery": "sum=6813523.4600 nulls=0"
+    },
+    "total_spend_eur": {
+     "legacy": "sum=27601135.7700 nulls=0",
+     "bigquery": "sum=27601135.7700 nulls=0"
+    },
+    "impressions": {
+     "legacy": "sum=6592738607.0000 nulls=0",
+     "bigquery": "sum=6592738607.0000 nulls=0"
+    }
+   },
+   "type_notes": {}
+  }
+ ]
+}
