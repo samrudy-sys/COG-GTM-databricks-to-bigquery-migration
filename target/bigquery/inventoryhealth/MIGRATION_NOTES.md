@@ -31,7 +31,27 @@ The master DAG (owned by the integrator) must order `salesdaily >> inventoryheal
   This needs a business decision (dedupe the snapshots, or agree on a tiebreak) before exact parity is possible.
 
 ## Parity (BigQuery emulator, run_date 2024-04-30)
-`make parity UNIT=inventoryhealth` currently crashes in `tools/parity.py` `stage_inputs` with "Duplicate column name _load_ts":
-the baseline schema of the upstream `pds_rsi.silver_sales` already has `_load_ts`, and the harness appends it again. A diagnostic run patched
-that one function in memory (no file edits) and wrote `reports/parity/inventoryhealth.json`: 4,248/4,248 rows, all columns match except
-`wow_change_units` (154 tie rows, see above). **Not passed.**
+`make parity UNIT=inventoryhealth` now runs (the `_load_ts` staging fix is on `main`). Result: 4,248/4,248 rows, every column matches
+except `wow_change_units` (154 rows, all in the 8 tied store/sku pairs). **Not passed.**
+
+### Why the legacy `wow_change_units` cannot be reproduced in SQL
+The legacy notebook was replayed out-of-repo on PySpark 3.5.3 + Delta 3.2.1 with the harness session (`local[4]`,
+`spark.sql.shuffle.partitions=4`, AQE on). That run matches the committed baseline exactly (0 diffs). Changing only the
+Spark config changes `wow_change_units` on the tied rows:
+
+| Spark config | rows differing from baseline |
+|---|---|
+| harness default (`shuffle.partitions=4`, AQE on) | 0 |
+| `spark.sql.shuffle.partitions=8` | 93 |
+| `spark.sql.shuffle.partitions=1` | 102 |
+| `spark.sql.adaptive.enabled=false` | 12 |
+
+The plan is `BroadcastHashJoin -> HashAggregate -> Exchange hashpartitioning(snapshot_date, store_id, sku, on_hand_units, 4)
+-> HashAggregate -> Exchange hashpartitioning(store_id, sku, 4) -> Sort(snapshot_date) -> Window(lag)`. The order of tied rows
+follows the murmur3 shuffle partition of the 4 group keys (92 of 134 tied dates) and hash-map iteration order inside the
+aggregate (the rest). This is a physical-plan artefact, not business logic. It would also differ on the production Databricks cluster.
+Copying it into BigQuery SQL would mean reimplementing Spark's murmur3 and its aggregate hash map, so it was not done.
+
+**Decision needed (business owner):** either dedupe `udl.inventory_snapshots` per (snapshot_date, store_id, sku), or agree on a
+tiebreak (the SQL uses `ORDER BY snapshot_date, on_hand_units`). Then add the same tiebreak to `nb_inventory_cover` and
+regenerate the baseline (a `legacy/` change, outside this unit).
